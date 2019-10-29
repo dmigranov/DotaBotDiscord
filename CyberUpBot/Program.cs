@@ -23,31 +23,15 @@ namespace CyberUpBot
 
                 _client.Log += Log;
                 _client.MessageReceived += MessageReceived;
-                CommandHandler handler = new CommandHandler(_client, );
-
+                CommandHandler handler = new CommandHandler(_client, service);
+                await handler.InstallCommandsAsync();
                 await _client.LoginAsync(TokenType.Bot, token);
                 await _client.StartAsync();
 
                 // Block this task until the program is closed.
                 await Task.Delay(-1);
             }
-            /*using (var services = ConfigureServices())
-            {
-                var client = services.GetRequiredService<DiscordSocketClient>();
-
-                client.Log += LogAsync;
-                services.GetRequiredService<CommandService>().Log += LogAsync;
-
-                // Tokens should be considered secret data and never hard-coded.
-                // We can read from the environment variable to avoid hardcoding.
-                await client.LoginAsync(TokenType.Bot, Environment.GetEnvironmentVariable("token"));
-                await client.StartAsync();
-
-                // Here we initialize the logic required to register our commands.
-                await services.GetRequiredService<CommandHandlingService>().InitializeAsync();
-
-                await Task.Delay(-1);
-            }*/
+            
         }
 
         private async Task MessageReceived(SocketMessage message)
@@ -64,15 +48,5 @@ namespace CyberUpBot
             return Task.CompletedTask;
         }
 
-        private ServiceProvider ConfigureServices()
-        {
-            return new ServiceCollection()
-                .AddSingleton<DiscordSocketClient>()
-                .AddSingleton<CommandService>()
-                .AddSingleton<CommandHandlingService>()
-                .AddSingleton<HttpClient>()
-                .AddSingleton<PictureService>()
-                .BuildServiceProvider();
-        }
     }
 }
