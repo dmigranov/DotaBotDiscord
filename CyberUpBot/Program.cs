@@ -6,7 +6,7 @@ using System;
 
 using System.Threading.Tasks;
 
-namespace DiscordBot
+namespace CyberUpBot
 {
     public class Program
     {
@@ -17,18 +17,21 @@ namespace DiscordBot
 
         public async Task MainAsync(string token)
         {
-            /*_client = new DiscordSocketClient();
+            using (CommandService service = new CommandService())
+            {
+                _client = new DiscordSocketClient();
 
-            _client.Log += Log;
-            _client.MessageReceived += MessageReceived;
+                _client.Log += Log;
+                _client.MessageReceived += MessageReceived;
+                CommandHandler handler = new CommandHandler(_client, );
 
-            await _client.LoginAsync(TokenType.Bot, token);
-            await _client.StartAsync();
+                await _client.LoginAsync(TokenType.Bot, token);
+                await _client.StartAsync();
 
-            // Block this task until the program is closed.
-            await Task.Delay(-1);*/
-
-            using (var services = ConfigureServices())
+                // Block this task until the program is closed.
+                await Task.Delay(-1);
+            }
+            /*using (var services = ConfigureServices())
             {
                 var client = services.GetRequiredService<DiscordSocketClient>();
 
@@ -44,7 +47,7 @@ namespace DiscordBot
                 await services.GetRequiredService<CommandHandlingService>().InitializeAsync();
 
                 await Task.Delay(-1);
-            }
+            }*/
         }
 
         private async Task MessageReceived(SocketMessage message)
