@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
+using System;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -8,11 +9,11 @@ namespace CyberUpBot
     public class CommandHandler
     {
         private readonly DiscordSocketClient _client;
-        private readonly CommandService _commands;
+        private readonly CommandService _commandService;
 
         public CommandHandler(DiscordSocketClient client, CommandService commands)
         {
-            _commands = commands;
+            _commandService = commands;
             _client = client;
         }
 
@@ -28,8 +29,18 @@ namespace CyberUpBot
             //
             // If you do not use Dependency Injection, pass null.
             // See Dependency Injection guide for more information.
-            await _commands.AddModulesAsync(assembly: Assembly.GetEntryAssembly(),
-                                            services: null);
+
+            await _commandService.AddModulesAsync(assembly: Assembly.GetEntryAssembly(), services: null);
+
+
+            /*await _commandService.CreateModuleAsync("HelpModule", builder => {
+                builder.AddCommand("help", null, async commandBuilder => { commandBuilder. });
+            });
+
+            foreach (ModuleInfo module in _commandService.Modules)
+            {
+                System.Console.WriteLine(module.Name);
+            }*/
         }
 
         private async Task HandleCommandAsync(SocketMessage messageParam)
@@ -55,7 +66,7 @@ namespace CyberUpBot
 
             // Keep in mind that result does not indicate a return value
             // rather an object stating if the command executed successfully.
-            var result = await _commands.ExecuteAsync(
+            var result = await _commandService.ExecuteAsync(
                 context: context,
                 argPos: argPos,
                 services: null);

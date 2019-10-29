@@ -13,11 +13,9 @@ namespace CyberUpBot
     // If it isn't, it will not be discovered by AddModulesAsync!
     public class PublicModule : ModuleBase<SocketCommandContext>
     {
-        // Dependency Injection will fill this value in for us
-        //public PictureService PictureService { get; set; }
-
         [Command("ping")]
         [Alias("pong", "hello")]
+        [Summary("Says pong.")]
         public Task PingAsync()
             => ReplyAsync("pong!");
 
@@ -60,5 +58,23 @@ namespace CyberUpBot
         [RequireContext(ContextType.Guild, ErrorMessage = "Sorry, this command must be ran from within a server, not a DM!")]
         public Task GuildOnlyCommand()
             => ReplyAsync("Nothing to see here!");
+
+
+
+        [Command("help")]
+        public async Task Help()
+        {
+            
+
+            await ReplyAsync("Here's a list of commands and their description: ");
+        }
+
+        [Command("add_steamid")]
+        public async Task AdSteamID()
+        {
+            
+
+            await ReplyAsync("Here's a list of commands and their description: ");
+        }
     }
 }
