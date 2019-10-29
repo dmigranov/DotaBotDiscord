@@ -18,7 +18,6 @@ namespace CyberUpBot
 
         public async Task InstallCommandsAsync()
         {
-            // Hook the MessageReceived event into our command handler
             _client.MessageReceived += HandleCommandAsync;
 
             // Here we discover all of the command modules in the entry 

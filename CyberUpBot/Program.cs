@@ -1,7 +1,6 @@
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 
 using System.Threading.Tasks;
@@ -22,7 +21,6 @@ namespace CyberUpBot
                 _client = new DiscordSocketClient();
 
                 _client.Log += Log;
-                _client.MessageReceived += MessageReceived;
                 CommandHandler handler = new CommandHandler(_client, service);
                 await handler.InstallCommandsAsync();
                 await _client.LoginAsync(TokenType.Bot, token);
@@ -32,14 +30,6 @@ namespace CyberUpBot
                 await Task.Delay(-1);
             }
             
-        }
-
-        private async Task MessageReceived(SocketMessage message)
-        {
-            if (message.Content == "!ping")
-            {
-                await message.Channel.SendMessageAsync("Pong!");
-            }
         }
 
         private Task Log(LogMessage msg)
