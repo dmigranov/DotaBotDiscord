@@ -7,6 +7,7 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using OpenDotaDotNet;
+using OpenDotaDotNet.Dtos;
 
 namespace CyberUpBot
 {
@@ -100,6 +101,19 @@ namespace CyberUpBot
             embedBuilder.AddField("Всего игр сыграно:", playerWinLoss.Wins + playerWinLoss.Losses);
             embedBuilder.AddField("Побед:", playerWinLoss.Wins);
             embedBuilder.AddField("Поражений:", playerWinLoss.Losses);
+
+
+            var playerQueryParameters = new PlayerEndpointParameters
+            {
+                Limit = 20
+            };
+            var playerHeroes = await _openDota.Player.GetPlayerHeroesAsync(playerID_32, playerQueryParameters);
+
+            var playerMostPlayedHeroLast20 = playerHeroes.FirstOrDefault();
+
+            embedBuilder.AddField("Самый популярный герой за последние 20 матчей:", playerMostPlayedHeroLast20 != null ? $"id = {playerMostPlayedHeroLast20.HeroId} с {playerMostPlayedHeroLast20.Win} победами" : "нет информации");
+
+
 
             await ReplyAsync("Информация об игроке: ", false, embedBuilder.Build());
         }
