@@ -32,6 +32,7 @@ namespace CyberUpBot
 
             await _commandService.AddModulesAsync(assembly: Assembly.GetEntryAssembly(), services: null);
 
+            PublicModule._commandService = _commandService;
 
             /*await _commandService.CreateModuleAsync("HelpModule", builder => {
                 builder.AddCommand("help", null, async commandBuilder => { commandBuilder. });

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Discord;
@@ -13,6 +14,9 @@ namespace CyberUpBot
     // If it isn't, it will not be discovered by AddModulesAsync!
     public class PublicModule : ModuleBase<SocketCommandContext>
     {
+        public static CommandService _commandService { get; set; }
+
+
         [Command("ping")]
         [Alias("pong", "hello")]
         [Summary("Says pong.")]
@@ -61,12 +65,21 @@ namespace CyberUpBot
 
 
 
-        [Command("help")]
+        [Command("Help")]
         public async Task Help()
         {
-            
+            List<CommandInfo> commands = _commandService.Commands.ToList();
+            EmbedBuilder embedBuilder = new EmbedBuilder();
 
-            await ReplyAsync("Here's a list of commands and their description: ");
+            foreach (CommandInfo command in commands)
+            {
+                // Get the command Summary attribute information
+                string embedFieldText = command.Summary ?? "No description available\n";
+
+                embedBuilder.AddField(command.Name, embedFieldText);
+            }
+
+            await ReplyAsync("Here's a list of commands and their description: ", false, embedBuilder.Build());
         }
 
         [Command("add_steamid")]
