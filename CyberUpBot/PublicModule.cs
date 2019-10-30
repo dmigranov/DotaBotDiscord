@@ -102,7 +102,6 @@ namespace CyberUpBot
             embedBuilder.AddField("Побед:", playerWinLoss.Wins);
             embedBuilder.AddField("Поражений:", playerWinLoss.Losses);
 
-
             var playerQueryParameters = new PlayerEndpointParameters
             {
                 Limit = 20
@@ -112,8 +111,6 @@ namespace CyberUpBot
             var playerMostPlayedHeroLast20 = playerHeroes.FirstOrDefault();
 
             embedBuilder.AddField("Самый популярный герой за последние 20 матчей:", playerMostPlayedHeroLast20 != null ? $"id = {playerMostPlayedHeroLast20.HeroId} с {playerMostPlayedHeroLast20.Win} победами" : "нет информации");
-
-
 
             await ReplyAsync("Информация об игроке: ", false, embedBuilder.Build());
         }
