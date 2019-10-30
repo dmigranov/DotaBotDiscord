@@ -85,10 +85,10 @@ namespace CyberUpBot
         }
 
 
-        [Command("add_steamid")]
-        public async Task AddSteamID(long playerID)
+        [Command("checkID", RunMode = RunMode.Async)]
+        public async Task AddSteamID(long playerID_32)
         {
-            var playerInfo = await _openDota.Player.GetPlayerByIdAsync(playerID);
+            var playerInfo = await _openDota.Player.GetPlayerByIdAsync(playerID_32);
 
             EmbedBuilder embedBuilder = new EmbedBuilder();
 
