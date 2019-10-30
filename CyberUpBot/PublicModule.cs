@@ -84,17 +84,22 @@ namespace CyberUpBot
             await ReplyAsync("Вот список всех команд с описанием: ", false, embedBuilder.Build());
         }
 
-
+        [Summary("Вывод информации о профиле Стим по Steam32 ID ")]
         [Command("checkID", RunMode = RunMode.Async)]
         public async Task AddSteamID(long playerID_32)
         {
             var playerInfo = await _openDota.Player.GetPlayerByIdAsync(playerID_32);
 
-            await Task.Delay(10000);
-
             EmbedBuilder embedBuilder = new EmbedBuilder();
 
             embedBuilder.AddField("Имя в Стиме:", playerInfo.Profile.Personaname);
+            embedBuilder.AddField("MMR:", playerInfo.MmrEstimate.Estimate.HasValue ? playerInfo.MmrEstimate.Estimate.ToString() : "нет");
+            //MMR может быть не актуален: add MMR to your profile card. 
+
+            var playerWinLoss = await _openDota.Player.GetPlayerWinLossByIdAsync(playerID_32);
+            embedBuilder.AddField("Всего игр сыграно:", playerWinLoss.Wins + playerWinLoss.Losses);
+            embedBuilder.AddField("Побед:", playerWinLoss.Wins);
+            embedBuilder.AddField("Поражений:", playerWinLoss.Losses);
 
             await ReplyAsync("Информация об игроке: ", false, embedBuilder.Build());
         }
