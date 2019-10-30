@@ -90,6 +90,8 @@ namespace CyberUpBot
         {
             var playerInfo = await _openDota.Player.GetPlayerByIdAsync(playerID_32);
 
+            await Task.Delay(10000);
+
             EmbedBuilder embedBuilder = new EmbedBuilder();
 
             embedBuilder.AddField("Имя в Стиме:", playerInfo.Profile.Personaname);
