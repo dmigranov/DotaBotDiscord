@@ -2,14 +2,16 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
-
 using System.Threading.Tasks;
+using OpenDotaDotNet;
+using OpenDotaDotNet.Dtos;
 
 namespace CyberUpBot
 {
     public class Program
     {
         private DiscordSocketClient _client;
+        private OpenDotaApi openDota;
 
         public static void Main(string[] args)
             => new Program().MainAsync(args[0]).GetAwaiter().GetResult();
@@ -19,6 +21,7 @@ namespace CyberUpBot
             using (CommandService service = new CommandService())
             {
                 _client = new DiscordSocketClient();
+                openDota = OpenDotaApi.GetInstance();
 
                 _client.Log += Log;
                 CommandHandler handler = new CommandHandler(_client, service);
