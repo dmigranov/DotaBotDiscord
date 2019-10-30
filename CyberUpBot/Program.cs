@@ -24,7 +24,7 @@ namespace CyberUpBot
                 openDota = OpenDotaApi.GetInstance();
 
                 _client.Log += Log;
-                CommandHandler handler = new CommandHandler(_client, service);
+                CommandHandler handler = new CommandHandler(_client, service, openDota);
                 await handler.InstallCommandsAsync();
                 await _client.LoginAsync(TokenType.Bot, token);
                 await _client.StartAsync();

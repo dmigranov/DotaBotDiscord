@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
+using OpenDotaDotNet;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -10,11 +11,14 @@ namespace CyberUpBot
     {
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commandService;
+        private readonly OpenDotaApi _openDota;
 
-        public CommandHandler(DiscordSocketClient client, CommandService commands)
+
+        public CommandHandler(DiscordSocketClient client, CommandService commands, OpenDotaApi openDota)
         {
             _commandService = commands;
             _client = client;
+            _openDota = openDota;
         }
 
         public async Task InstallCommandsAsync()
@@ -33,6 +37,7 @@ namespace CyberUpBot
             await _commandService.AddModulesAsync(assembly: Assembly.GetEntryAssembly(), services: null);
 
             PublicModule._commandService = _commandService;
+            PublicModule._openDota = _openDota;
 
             /*await _commandService.CreateModuleAsync("HelpModule", builder => {
                 builder.AddCommand("help", null, async commandBuilder => { commandBuilder. });

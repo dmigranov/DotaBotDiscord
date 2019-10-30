@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using OpenDotaDotNet;
 
 namespace CyberUpBot
 {
@@ -15,7 +16,7 @@ namespace CyberUpBot
     public class PublicModule : ModuleBase<SocketCommandContext>
     {
         public static CommandService _commandService { get; set; }
-
+        public static OpenDotaApi _openDota { get; set; }
 
         [Command("ping")]
         [Alias("pong", "hello")]
@@ -85,11 +86,15 @@ namespace CyberUpBot
 
 
         [Command("add_steamid")]
-        public async Task AdSteamID()
+        public async Task AddSteamID(long playerID)
         {
-            
+            //var playerInfo = await _openDota.Player.GetPlayerByIdAsync(playerID);
 
-            await ReplyAsync("Here's a list of commands and their description: ");
+            EmbedBuilder embedBuilder = new EmbedBuilder();
+
+            embedBuilder.AddField("Имя в Стиме:", playerInfo.Profile.Personaname);
+
+            await ReplyAsync("Информация об игроке: ", false, embedBuilder.Build());
         }
     }
 }
