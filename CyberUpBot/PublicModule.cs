@@ -19,7 +19,7 @@ namespace CyberUpBot
 
         [Command("ping")]
         [Alias("pong", "hello")]
-        [Summary("Says pong.")]
+        [Summary("Отправляет pong в ответ")]
         public Task PingAsync()
             => ReplyAsync("pong!");
 
@@ -65,7 +65,9 @@ namespace CyberUpBot
 
 
 
-        [Command("Help")]
+        [Command("help")]
+        [Summary("Вывод справки по командам")]
+
         public async Task Help()
         {
             List<CommandInfo> commands = _commandService.Commands.ToList();
@@ -73,14 +75,14 @@ namespace CyberUpBot
 
             foreach (CommandInfo command in commands)
             {
-                // Get the command Summary attribute information
-                string embedFieldText = command.Summary ?? "No description available\n";
+                string embedFieldText = command.Summary ?? "Без описания\n";
 
                 embedBuilder.AddField(command.Name, embedFieldText);
             }
 
-            await ReplyAsync("Here's a list of commands and their description: ", false, embedBuilder.Build());
+            await ReplyAsync("Вот список всех команд с описанием: ", false, embedBuilder.Build());
         }
+
 
         [Command("add_steamid")]
         public async Task AdSteamID()
