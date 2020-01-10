@@ -84,6 +84,7 @@ namespace DotaBotDiscord
         {
             List<CommandInfo> commands = _commandService.Commands.ToList();
             EmbedBuilder embedBuilder = new EmbedBuilder();
+            embedBuilder.Title = "Все команды вводятся начиная с !";
 
             foreach (CommandInfo command in commands)
             {
