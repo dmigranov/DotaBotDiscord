@@ -28,6 +28,7 @@ namespace DotaBotDiscord
 
         // Get info on a user, or the user who invoked the command if one is not specified
         [Command("userinfo")]
+        [Summary("Отправляет информацию о аккаунте Discord в ответ")]
         public async Task UserInfoAsync(IUser user = null)
         {
             user = user ?? Context.User;
@@ -36,6 +37,8 @@ namespace DotaBotDiscord
         }
 
         // Ban a user
+        /*
+        
         [Command("ban")]
         [RequireContext(ContextType.Guild)]
         // make sure the user invoking the command can ban
@@ -47,6 +50,9 @@ namespace DotaBotDiscord
             await user.Guild.AddBanAsync(user, reason: reason);
             await ReplyAsync("ok!");
         }
+
+        */
+
 
         // [Remainder] takes the rest of the command's arguments as one argument, rather than splitting every space
         [Command("echo")]
