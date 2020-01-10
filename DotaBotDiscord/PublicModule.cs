@@ -18,6 +18,8 @@ namespace DotaBotDiscord
     {
         public static CommandService _commandService { get; set; }
         public static OpenDotaApi _openDota { get; set; }
+        public static Heroes heroes { get; set; }
+
 
         [Command("ping")]
         [Alias("pong", "hello")]
@@ -120,7 +122,7 @@ namespace DotaBotDiscord
 
             var playerMostPlayedHeroLast20 = playerHeroes.FirstOrDefault();
 
-            embedBuilder.AddField("Самый популярный герой за последние 20 матчей:", playerMostPlayedHeroLast20 != null ? $"id = {playerMostPlayedHeroLast20.HeroId} с {playerMostPlayedHeroLast20.Win} победами" : "нет информации");
+            embedBuilder.AddField("Самый популярный герой за последние 20 матчей:", playerMostPlayedHeroLast20 != null ? $"{heroes.GetHero(playerMostPlayedHeroLast20.HeroId).localized_name} с {playerMostPlayedHeroLast20.Win} победами" : "нет информации");
             //var heroString = _openDota.Hero. 
             await ReplyAsync("Информация об игроке: ", false, embedBuilder.Build());
         }

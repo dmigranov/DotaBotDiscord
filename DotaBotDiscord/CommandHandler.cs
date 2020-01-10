@@ -54,13 +54,12 @@ namespace DotaBotDiscord
 
             using (FileStream fs = new FileStream("heroes.json", FileMode.Open))
             {
-                //StreamReader reader = new StreamReader(fs);
-
-
-
                 heroes = await JsonSerializer.DeserializeAsync<Heroes>(fs);
-                Console.WriteLine($"{heroes.heroes.Count}");
+                PublicModule.heroes = heroes;
+                Console.WriteLine("Heroes list loaded!");
             }
+
+
         }
 
         private async Task HandleCommandAsync(SocketMessage messageParam)

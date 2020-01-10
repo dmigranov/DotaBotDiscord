@@ -5,25 +5,26 @@ using System.Text;
 
 namespace DotaBotDiscord
 {
-    class Heroes
+    public class Heroes
     {
         private List<Hero> _heroes;
-        private Dictionary<int, Hero> heroesMap;
+        private Dictionary<int, Hero> heroesMap = null;
         public List<Hero> heroes { 
             get { return _heroes; }
             set { 
                 _heroes = value;
-                heroesMap = _heroes.ToDictionary(x => x.id, x => x);
             }
         }
 
         public Hero GetHero(int id)
         {
+            if(heroesMap == null)
+                heroesMap = _heroes.ToDictionary(x => x.id, x => x);
             return heroesMap[id];
         }
     }
 
-    class Hero
+    public class Hero
     {
         public string name { get; set; }
         public int id { get; set; }
