@@ -113,7 +113,7 @@ namespace DotaBotDiscord
             embedBuilder.AddField("Всего игр сыграно:", playerWinLoss.Wins + playerWinLoss.Losses);
             embedBuilder.AddField("Побед:", playerWinLoss.Wins);
             embedBuilder.AddField("Поражений:", playerWinLoss.Losses);
-            embedBuilder.WithThumbnailUrl(playerInfo.Profile.Avatar.ToString());
+            embedBuilder.WithThumbnailUrl(playerInfo.Profile.Avatarfull.ToString());
 
             var playerQueryParameters = new PlayerEndpointParameters
             {
