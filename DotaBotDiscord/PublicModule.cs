@@ -106,6 +106,7 @@ namespace DotaBotDiscord
             EmbedBuilder embedBuilder = new EmbedBuilder();
 
             embedBuilder.AddField("Имя в Стиме:", playerInfo.Profile.Personaname);
+            embedBuilder.AddField("Ссылка на профиль", playerInfo.Profile.Profileurl);
             embedBuilder.AddField("MMR:", playerInfo.MmrEstimate.Estimate.HasValue ? playerInfo.MmrEstimate.Estimate.ToString() : "нет");
             //MMR может быть не актуален: add MMR to your profile card. 
 
