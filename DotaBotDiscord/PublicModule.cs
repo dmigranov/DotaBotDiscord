@@ -79,7 +79,6 @@ namespace DotaBotDiscord
 
         [Command("help")]
         [Summary("Вывод справки по командам")]
-
         public async Task Help()
         {
             List<CommandInfo> commands = _commandService.Commands.ToList();
@@ -122,7 +121,7 @@ namespace DotaBotDiscord
             var playerMostPlayedHeroLast20 = playerHeroes.FirstOrDefault();
 
             embedBuilder.AddField("Самый популярный герой за последние 20 матчей:", playerMostPlayedHeroLast20 != null ? $"id = {playerMostPlayedHeroLast20.HeroId} с {playerMostPlayedHeroLast20.Win} победами" : "нет информации");
-
+            var heroString = _openDota.Hero. 
             await ReplyAsync("Информация об игроке: ", false, embedBuilder.Build());
         }
     }
