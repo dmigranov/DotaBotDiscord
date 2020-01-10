@@ -4,6 +4,7 @@ using OpenDotaDotNet;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -15,8 +16,7 @@ namespace DotaBotDiscord
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commandService;
         private readonly OpenDotaApi _openDota;
-        private Heroes heroes;
-        private Dictionary<int, OpenDotaDotNet.Models.Heroes.Hero> heroesMap = null;
+        private Dictionary<long, OpenDotaDotNet.Models.Heroes.Hero> heroesMap = null;
 
 
         public CommandHandler(DiscordSocketClient client, CommandService commands, OpenDotaApi openDota)
@@ -55,15 +55,11 @@ namespace DotaBotDiscord
             }*/
 
 
-            /*using (FileStream fs = new FileStream("heroes.json", FileMode.Open))
-            {
-                heroes = await JsonSerializer.DeserializeAsync<Heroes>(fs);
-                PublicModule.heroes = heroes;
-                Console.WriteLine("Heroes list loaded!");
-            }*/
+
 
             List<OpenDotaDotNet.Models.Heroes.Hero> heroes =  await _openDota.Hero.GetHeroesAsync();
-            heroesMap = heroes.ToDictionary(x => x.id, x => x);
+            heroesMap = heroes.ToDictionary(x => x.Id, x => x);
+            PublicModule.heroes = heroesMap;
 
 
         }
