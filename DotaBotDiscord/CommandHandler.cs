@@ -2,7 +2,9 @@
 using Discord.WebSocket;
 using OpenDotaDotNet;
 using System;
+using System.IO;
 using System.Reflection;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace DotaBotDiscord
@@ -12,13 +14,14 @@ namespace DotaBotDiscord
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commandService;
         private readonly OpenDotaApi _openDota;
-
+        private Heroes heroes;
 
         public CommandHandler(DiscordSocketClient client, CommandService commands, OpenDotaApi openDota)
         {
             _commandService = commands;
             _client = client;
             _openDota = openDota;
+
         }
 
         public async Task InstallCommandsAsync()
@@ -47,6 +50,13 @@ namespace DotaBotDiscord
             {
                 System.Console.WriteLine(module.Name);
             }*/
+
+
+            using (FileStream fs = new FileStream("heroes.json", FileMode.OpenOrCreate))
+            {
+                heroes = await JsonSerializer.DeserializeAsync<Heroes>(fs);
+                Console.WriteLine($"{heroes.heroes.Count}");
+            }
         }
 
         private async Task HandleCommandAsync(SocketMessage messageParam)
