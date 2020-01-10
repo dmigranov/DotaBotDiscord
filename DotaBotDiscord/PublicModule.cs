@@ -121,8 +121,8 @@ namespace DotaBotDiscord
             var playerHeroes = await _openDota.Player.GetPlayerHeroesAsync(playerID_32, playerQueryParameters);
 
             var playerMostPlayedHeroLast20 = playerHeroes.FirstOrDefault();
-
-            embedBuilder.AddField("Самый популярный герой за последние 20 матчей:", playerMostPlayedHeroLast20 != null ? $"{heroes[playerMostPlayedHeroLast20.HeroId].LocalizedName} с {playerMostPlayedHeroLast20.Win} победами" : "нет информации");
+            var hero = heroes[playerMostPlayedHeroLast20.HeroId];
+            embedBuilder.AddField("Самый популярный герой за последние 20 матчей:", playerMostPlayedHeroLast20 != null ? $"{hero.LocalizedName} ({string.Join("; ", hero.Roles)}) с {playerMostPlayedHeroLast20.Win} победами" : "нет информации");
             await ReplyAsync("Информация об игроке: ", false, embedBuilder.Build());
         }
     }
