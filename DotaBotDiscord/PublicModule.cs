@@ -84,7 +84,7 @@ namespace DotaBotDiscord
         {
             List<CommandInfo> commands = _commandService.Commands.ToList();
             EmbedBuilder embedBuilder = new EmbedBuilder();
-            embedBuilder.Title = "Все команды вводятся начиная с !";
+            embedBuilder.Title = "Список команд";
 
             foreach (CommandInfo command in commands)
             {
@@ -93,7 +93,7 @@ namespace DotaBotDiscord
                 embedBuilder.AddField(command.Name, embedFieldText);
             }
 
-            await ReplyAsync("Вот список всех команд с описанием: ", false, embedBuilder.Build());
+            await ReplyAsync("Вот список всех команд с описанием; все команды вводятся начиная с !: ", false, embedBuilder.Build());
         }
 
         [Summary("Вывод информации о профиле Стим по Steam32 ID ")]
