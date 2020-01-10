@@ -34,8 +34,8 @@ namespace DotaBotDiscord
         public async Task UserInfoAsync(IUser user = null)
         {
             user = user ?? Context.User;
-
-            await ReplyAsync(user.ToString());
+            
+            await ReplyAsync($"{user.Mention}: {user.ToString()}");
         }
 
         // Ban a user
@@ -115,7 +115,6 @@ namespace DotaBotDiscord
             embedBuilder.AddField("Побед:", playerWinLoss.Wins);
             embedBuilder.AddField("Поражений:", playerWinLoss.Losses);
             embedBuilder.WithThumbnailUrl(playerInfo.Profile.Avatarfull.ToString());
-
             var playerQueryParameters = new PlayerEndpointParameters
             {
                 Limit = 20
