@@ -5,7 +5,7 @@ using System;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace CyberUpBot
+namespace DotaBotDiscord
 {
     public class CommandHandler
     {

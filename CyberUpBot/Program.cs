@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using OpenDotaDotNet;
 using OpenDotaDotNet.Dtos;
 
-namespace CyberUpBot
+namespace DotaBotDiscord
 {
     public class Program
     {

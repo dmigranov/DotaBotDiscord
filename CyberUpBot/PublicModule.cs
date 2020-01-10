@@ -9,7 +9,7 @@ using Discord.WebSocket;
 using OpenDotaDotNet;
 using OpenDotaDotNet.Dtos;
 
-namespace CyberUpBot
+namespace DotaBotDiscord
 {
 
     // Keep in mind your module **must** be public and inherit ModuleBase.
