@@ -52,8 +52,12 @@ namespace DotaBotDiscord
             }*/
 
 
-            using (FileStream fs = new FileStream("heroes.json", FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream("heroes.json", FileMode.Open))
             {
+                //StreamReader reader = new StreamReader(fs);
+
+
+
                 heroes = await JsonSerializer.DeserializeAsync<Heroes>(fs);
                 Console.WriteLine($"{heroes.heroes.Count}");
             }
