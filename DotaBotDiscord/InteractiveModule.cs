@@ -60,6 +60,25 @@ namespace DotaBotDiscord
                     embedBuilder.AddField("Ссылка на профиль", playerInfo.Profile.Profileurl);
                     embedBuilder.WithThumbnailUrl(playerInfo.Profile.Avatarfull.ToString());
                     await ReplyAsync("Это ваш профиль? д/н", false, embedBuilder.Build());
+                    var ynResponce = await NextMessageAsync();
+                    if(ynResponce != null)
+                    {
+                        var answer = ynResponce.Content;
+                        answer = answer.ToLower();
+                        var first = answer[0];
+                        if (first == 'д')
+                        {
+                            await ReplyAsync("Да");
+                        }
+                        else if (first == 'n')
+                            await ReplyAsync("Нет");
+                        else
+                            await ReplyAsync("Чё");
+
+
+                    }
+                    else
+                        await ReplyAsync("Прошло слишком много времени. Начните регистрацию заново.");
                 }
                 else
                 {
