@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Discord;
 using Discord.Addons.Interactive;
 using Discord.Commands;
 
@@ -19,22 +20,33 @@ namespace DotaBotDiscord
             if (response != null)
                 await ReplyAsync($"You replied: {response.Content}");
             else
-                await ReplyAsync("You did not reply before the timeout");
+                await ReplyAsync("Прошло слишком много времени. Начните регистрацию заново.");
         }
 
 
         [Command("register", RunMode = RunMode.Async)]
-        [Summary("Заполнение анкеты")]
+        [Summary("Заполнение анкеты (пишите в личные сообщения боту)")]
         public async Task Register()
         {
             var user = Context.User;
-            var channel = await user.GetOrCreateDMChannelAsync();
-            await channel.SendMessageAsync("Здравствуйте! Давайте зарегистрируем Вас в системе. Введите, пожалуйста, Ваш SteamID:");
+            //var channel = await user.GetOrCreateDMChannelAsync() as IPrivateChannel;
+            /*if (channel == null)
+                return;*/
+
+            var channel = Context.Channel as IDMChannel;
+            if (channel == null)
+                return;
+
+
+            await user.SendMessageAsync("Здравствуйте! Давайте зарегистрируем Вас в системе. Введите, пожалуйста, Ваш SteamID:");
 
             var response = await NextMessageAsync();
 
             if (response != null)
-                await ReplyAsync($"You replied: {response.Content}");
+            {
+                long steamID = long.Parse(response.Content);
+                await ReplyAsync(steamID.ToString());
+            }
             else
                 await ReplyAsync("You did not reply before the timeout");
         }
