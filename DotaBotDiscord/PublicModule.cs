@@ -133,7 +133,9 @@ namespace DotaBotDiscord
         public async Task Register()
         {
             var user = Context.User;
-            await user.SendMessageAsync("hello muthafucka");
+            await user.SendMessageAsync("Здравствуйте! Давайте зарегестрируем Вас в системе. Введите, пожалуйста, Ваш SteamID:");
+            var channel = await user.GetOrCreateDMChannelAsync();
+            channel.
 
         }
 
