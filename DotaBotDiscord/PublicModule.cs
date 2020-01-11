@@ -126,5 +126,17 @@ namespace DotaBotDiscord
             embedBuilder.AddField("Самый популярный герой за последние 20 матчей:", playerMostPlayedHeroLast20 != null ? $"{hero.LocalizedName} ({string.Join("; ", hero.Roles)}) с {playerMostPlayedHeroLast20.Win} победами" : "нет информации");
             await ReplyAsync("Информация об игроке: ", false, embedBuilder.Build());
         }
+
+
+        [Command("register")]
+        [Summary("Заполнение анкеты")]
+        public async Task Register()
+        {
+            var user = Context.User;
+            await user.SendMessageAsync("hello muthafucka");
+
+        }
+
     }
+
 }
