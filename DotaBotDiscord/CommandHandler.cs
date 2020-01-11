@@ -44,6 +44,7 @@ namespace DotaBotDiscord
 
             await _commandService.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
 
+
             PublicModule._commandService = _commandService;
             PublicModule._openDota = _openDota;
 
@@ -81,7 +82,7 @@ namespace DotaBotDiscord
             var result = await _commandService.ExecuteAsync(
                 context: context,
                 argPos: argPos,
-                services: null);
+                _services);
 
             // Optionally, we may inform the user if the command fails
             // to be executed; however, this may not always be desired,

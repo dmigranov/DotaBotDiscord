@@ -15,7 +15,7 @@ namespace DotaBotDiscord
 
     // Keep in mind your module **must** be public and inherit ModuleBase.
     // If it isn't, it will not be discovered by AddModulesAsync!
-    public class PublicModule : InteractiveBase
+    public class PublicModule : ModuleBase<SocketCommandContext>
     {
         public static CommandService _commandService { get; set; }
         public static OpenDotaApi _openDota { get; set; }
@@ -138,7 +138,7 @@ namespace DotaBotDiscord
             await channel.SendMessageAsync("Здравствуйте! Давайте зарегистрируем Вас в системе. Введите, пожалуйста, Ваш SteamID:");
 
             //var msg = await channel.GetMessagesAsync();
-            var response = await NextMessageAsync();
+            //var response = await NextMessageAsync();
 
             Console.WriteLine("Hahahahhaaa");
         }
