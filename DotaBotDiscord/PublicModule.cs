@@ -133,10 +133,13 @@ namespace DotaBotDiscord
         public async Task Register()
         {
             var user = Context.User;
-            await user.SendMessageAsync("Здравствуйте! Давайте зарегестрируем Вас в системе. Введите, пожалуйста, Ваш SteamID:");
             var channel = await user.GetOrCreateDMChannelAsync();
-            channel.
+            await channel.SendMessageAsync("Здравствуйте! Давайте зарегистрируем Вас в системе. Введите, пожалуйста, Ваш SteamID:");
 
+            //var msg = await channel.GetMessagesAsync();
+
+
+            Console.WriteLine("Hahahahhaaa");
         }
 
     }

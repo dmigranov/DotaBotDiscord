@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Discord.Addons.Interactive\Discord.Addons.Interactive.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Discord.Net" Version="2.1.1" />
     <PackageReference Include="LiteDB" Version="4.1.4" />
   </ItemGroup>
