@@ -29,26 +29,31 @@ namespace DotaBotDiscord
         public async Task Register()
         {
             var user = Context.User;
-            //var channel = await user.GetOrCreateDMChannelAsync() as IPrivateChannel;
-            /*if (channel == null)
-                return;*/
 
             var channel = Context.Channel as IDMChannel;
             if (channel == null)
                 return;
 
-
             await user.SendMessageAsync("Здравствуйте! Давайте зарегистрируем Вас в системе. Введите, пожалуйста, Ваш SteamID:");
+        
+        
+        ParseResponse:
 
             var response = await NextMessageAsync();
-
             if (response != null)
             {
-                long steamID = long.Parse(response.Content);
-                await ReplyAsync(steamID.ToString());
+                long steamID;
+                if (long.TryParse(response.Content, out steamID))
+                    await ReplyAsync($"Ваш ID: {steamID}");
+                else
+                {
+                    await ReplyAsync("Неправильный ввод, попробуйте снова");
+                    goto ParseResponse;
+                }
+
             }
             else
-                await ReplyAsync("You did not reply before the timeout");
+                await ReplyAsync("Прошло слишком много времени. Начните регистрацию заново.");
         }
 
     }
