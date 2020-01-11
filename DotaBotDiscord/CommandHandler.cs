@@ -47,6 +47,7 @@ namespace DotaBotDiscord
 
             PublicModule._commandService = _commandService;
             PublicModule._openDota = _openDota;
+            InteractiveModule._openDota = _openDota;
 
 
             List<OpenDotaDotNet.Models.Heroes.Hero> heroes =  await _openDota.Hero.GetHeroesAsync();
