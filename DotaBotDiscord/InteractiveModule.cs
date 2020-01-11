@@ -69,12 +69,23 @@ namespace DotaBotDiscord
                         var first = answer[0];
                         if (first == 'д')
                         {
-                            /*using (var db = new LiteDatabase(@"BotData.db"))
+                            using (var db = new LiteDatabase(@"BotData.db"))
                             {
+                                var users = db.GetCollection<UserSteamAccount>("users");
+                                var userSteamAccount = new UserSteamAccount
+                                {
+                                    DiscordID = user.Id,
+                                    SteamID = steamID
+                                };
 
-                            }*/
+                                users.Insert(userSteamAccount);
 
-                            await ReplyAsync("Да");
+                                // Index document using a document property
+                                users.EnsureIndex(x => x.DiscordID);
+
+                            }
+
+                            await ReplyAsync(user.Id + " Да");
                         }
                         else if (first == 'н')
                         {
@@ -97,5 +108,11 @@ namespace DotaBotDiscord
                 await ReplyAsync("Прошло слишком много времени. Начните регистрацию заново.");
         }
 
+    }
+
+    public class UserSteamAccount
+    {
+        public ulong DiscordID { get; set; }
+        public long SteamID { get; set; }
     }
 }
