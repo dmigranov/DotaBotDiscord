@@ -129,19 +129,7 @@ namespace DotaBotDiscord
         }
 
 
-        [Command("register", RunMode = RunMode.Async)]
-        [Summary("Заполнение анкеты")]
-        public async Task Register()
-        {
-            var user = Context.User;
-            var channel = await user.GetOrCreateDMChannelAsync();
-            await channel.SendMessageAsync("Здравствуйте! Давайте зарегистрируем Вас в системе. Введите, пожалуйста, Ваш SteamID:");
 
-            //var msg = await channel.GetMessagesAsync();
-            //var response = await NextMessageAsync();
-
-            Console.WriteLine("Hahahahhaaa");
-        }
 
     }
 

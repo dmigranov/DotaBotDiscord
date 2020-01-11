@@ -7,14 +7,6 @@ namespace DotaBotDiscord
 {
     public class InteractiveModule : InteractiveBase
     {
-        // DeleteAfterAsync will send a message and asynchronously delete it after the timeout has popped
-        // This method will not block.
-        [Command("delete")]
-        public async Task<RuntimeResult> Test_DeleteAfterAsync()
-        {
-            await ReplyAndDeleteAsync("this message will delete in 10 seconds", timeout: TimeSpan.FromSeconds(10));
-            return Ok();
-        }
 
         // NextMessageAsync will wait for the next message to come in over the gateway, given certain criteria
         // By default, this will be limited to messages from the source user in the source channel
@@ -30,15 +22,22 @@ namespace DotaBotDiscord
                 await ReplyAsync("You did not reply before the timeout");
         }
 
-        // PagedReplyAsync will send a paginated message to the channel
-        // You can customize the paginator by creating a PaginatedMessage object
-        // You can customize the criteria for the paginator as well, which defaults to restricting to the source user
-        // This method will not block.
-        [Command("paginator")]
-        public async Task Test_Paginator()
+
+        [Command("register", RunMode = RunMode.Async)]
+        [Summary("Заполнение анкеты")]
+        public async Task Register()
         {
-            var pages = new[] { "Page 1", "Page 2", "Page 3", "aaaaaa", "Page 5" };
-            await PagedReplyAsync(pages);
+            var user = Context.User;
+            var channel = await user.GetOrCreateDMChannelAsync();
+            await channel.SendMessageAsync("Здравствуйте! Давайте зарегистрируем Вас в системе. Введите, пожалуйста, Ваш SteamID:");
+
+            var response = await NextMessageAsync();
+
+            if (response != null)
+                await ReplyAsync($"You replied: {response.Content}");
+            else
+                await ReplyAsync("You did not reply before the timeout");
         }
+
     }
 }
