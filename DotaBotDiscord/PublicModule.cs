@@ -8,13 +8,14 @@ using Discord.Commands;
 using Discord.WebSocket;
 using OpenDotaDotNet;
 using OpenDotaDotNet.Dtos;
+using Discord.Addons.Interactive;
 
 namespace DotaBotDiscord
 {
 
     // Keep in mind your module **must** be public and inherit ModuleBase.
     // If it isn't, it will not be discovered by AddModulesAsync!
-    public class PublicModule : ModuleBase<SocketCommandContext>
+    public class PublicModule : InteractiveBase
     {
         public static CommandService _commandService { get; set; }
         public static OpenDotaApi _openDota { get; set; }
@@ -128,7 +129,19 @@ namespace DotaBotDiscord
         }
 
 
-      
+        [Command("register", RunMode = RunMode.Async)]
+        [Summary("Заполнение анкеты")]
+        public async Task Register()
+        {
+            var user = Context.User;
+            var channel = await user.GetOrCreateDMChannelAsync();
+            await channel.SendMessageAsync("Здравствуйте! Давайте зарегистрируем Вас в системе. Введите, пожалуйста, Ваш SteamID:");
+
+            //var msg = await channel.GetMessagesAsync();
+            var response = await NextMessageAsync();
+
+            Console.WriteLine("Hahahahhaaa");
+        }
 
     }
 

@@ -1,6 +1,6 @@
-﻿using Discord.Addons.Interactive;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.Extensions.DependencyInjection;
 using OpenDotaDotNet;
 using System;
 using System.Collections.Generic;
@@ -17,15 +17,16 @@ namespace DotaBotDiscord
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commandService;
         private readonly OpenDotaApi _openDota;
+        private readonly ServiceProvider _services;
         private Dictionary<long, OpenDotaDotNet.Models.Heroes.Hero> heroesMap = null;
 
 
-        public CommandHandler(DiscordSocketClient client, CommandService commands, InteractiveService interactiveService, OpenDotaApi openDota)
+        public CommandHandler(DiscordSocketClient client, CommandService commands, Microsoft.Extensions.DependencyInjection.ServiceProvider services, OpenDotaApi openDota)
         {
             _commandService = commands;
             _client = client;
             _openDota = openDota;
-
+            _services = services;
         }
 
         public async Task InstallCommandsAsync()
@@ -41,21 +42,10 @@ namespace DotaBotDiscord
             // If you do not use Dependency Injection, pass null.
             // See Dependency Injection guide for more information.
 
-            await _commandService.AddModulesAsync(assembly: Assembly.GetEntryAssembly(), services: null);
+            await _commandService.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
 
             PublicModule._commandService = _commandService;
             PublicModule._openDota = _openDota;
-
-            /*await _commandService.CreateModuleAsync("HelpModule", builder => {
-                builder.AddCommand("help", null, async commandBuilder => { commandBuilder. });
-            });
-
-            foreach (ModuleInfo module in _commandService.Modules)
-            {
-                System.Console.WriteLine(module.Name);
-            }*/
-
-
 
 
             List<OpenDotaDotNet.Models.Heroes.Hero> heroes =  await _openDota.Hero.GetHeroesAsync();
