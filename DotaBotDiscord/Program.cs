@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using OpenDotaDotNet;
 using OpenDotaDotNet.Dtos;
+using Discord.Addons.Interactive;
 
 namespace DotaBotDiscord
 {
@@ -24,11 +25,14 @@ namespace DotaBotDiscord
                 openDota = OpenDotaApi.GetInstance();
 
                 _client.Log += Log;
-                CommandHandler handler = new CommandHandler(_client, service, openDota);
-                await handler.InstallCommandsAsync();
-                await _client.LoginAsync(TokenType.Bot, token);
-                await _client.StartAsync();
 
+                using (var interactiveService = new InteractiveService(_client))
+                { 
+                    CommandHandler handler = new CommandHandler(_client, service, interactiveService, openDota);
+                    await handler.InstallCommandsAsync();
+                    await _client.LoginAsync(TokenType.Bot, token);
+                    await _client.StartAsync();
+                }
                 // Block this task until the program is closed.
                 await Task.Delay(-1);
             }

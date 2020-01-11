@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord.Addons.Interactive;
+using Discord.Commands;
 using Discord.WebSocket;
 using OpenDotaDotNet;
 using System;
@@ -19,7 +20,7 @@ namespace DotaBotDiscord
         private Dictionary<long, OpenDotaDotNet.Models.Heroes.Hero> heroesMap = null;
 
 
-        public CommandHandler(DiscordSocketClient client, CommandService commands, OpenDotaApi openDota)
+        public CommandHandler(DiscordSocketClient client, CommandService commands, InteractiveService interactiveService, OpenDotaApi openDota)
         {
             _commandService = commands;
             _client = client;
