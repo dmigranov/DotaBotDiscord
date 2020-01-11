@@ -71,7 +71,10 @@ namespace DotaBotDiscord
                         {
                             using (var db = new LiteDatabase(@"BotData.db"))
                             {
+
                                 var users = db.GetCollection<UserSteamAccount>("users");
+                                Console.WriteLine($"{users.Count()}");
+
                                 var userSteamAccount = new UserSteamAccount
                                 {
                                     DiscordID = user.Id,
@@ -82,10 +85,9 @@ namespace DotaBotDiscord
 
                                 // Index document using a document property
                                 users.EnsureIndex(x => x.DiscordID);
-
                             }
 
-                            await ReplyAsync(user.Id + " Да");
+                            await ReplyAsync("Вы были успешно зарегистрированы!");
                         }
                         else if (first == 'н')
                         {
@@ -112,6 +114,7 @@ namespace DotaBotDiscord
 
     public class UserSteamAccount
     {
+        public int Id { get; set; }
         public ulong DiscordID { get; set; }
         public long SteamID { get; set; }
     }
