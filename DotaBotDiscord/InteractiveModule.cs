@@ -81,9 +81,11 @@ namespace DotaBotDiscord
                                     SteamID = steamID
                                 };
 
+                                //todo: вставка без повторений
+
                                 users.Insert(userSteamAccount);
 
-                                // Index document using a document property
+
                                 users.EnsureIndex(x => x.DiscordID);
                             }
 
