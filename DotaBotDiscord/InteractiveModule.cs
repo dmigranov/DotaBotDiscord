@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Addons.Interactive;
 using Discord.Commands;
+using LiteDB;
 using OpenDotaDotNet;
 
 namespace DotaBotDiscord
@@ -52,7 +53,7 @@ namespace DotaBotDiscord
                     var playerInfo = await _openDota.Player.GetPlayerByIdAsync(steamID);
                     if (playerInfo == null || playerInfo.Profile == null)
                     {
-                        await ReplyAsync("Профиль не найден, попробуйте снова");
+                        await ReplyAsync("Профиль не найден, попробуйте ввести Steam32ID снова");
                         goto ParseResponse;
                     }
                     EmbedBuilder embedBuilder = new EmbedBuilder();
@@ -68,13 +69,18 @@ namespace DotaBotDiscord
                         var first = answer[0];
                         if (first == 'д')
                         {
+                            /*using (var db = new LiteDatabase(@"BotData.db"))
+                            {
+
+                            }*/
+
                             await ReplyAsync("Да");
                         }
-                        else if (first == 'n')
-                            await ReplyAsync("Нет");
-                        else
-                            await ReplyAsync("Чё");
-
+                        else if (first == 'н')
+                        {
+                            await ReplyAsync("Попробуйте ввести Steam32ID снова");
+                            goto ParseResponse;
+                        }  
 
                     }
                     else
@@ -82,7 +88,7 @@ namespace DotaBotDiscord
                 }
                 else
                 {
-                    await ReplyAsync("Неправильный ввод, попробуйте снова");
+                    await ReplyAsync("Неправильный ввод, попробуйте ввести Steam32ID снова");
                     goto ParseResponse;
                 }
 
