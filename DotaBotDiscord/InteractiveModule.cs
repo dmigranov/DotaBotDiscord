@@ -50,11 +50,16 @@ namespace DotaBotDiscord
                 if (long.TryParse(response.Content, out steamID))
                 {
                     var playerInfo = await _openDota.Player.GetPlayerByIdAsync(steamID);
+                    if (playerInfo == null || playerInfo.Profile == null)
+                    {
+                        await ReplyAsync("Профиль не найден, попробуйте снова");
+                        goto ParseResponse;
+                    }
                     EmbedBuilder embedBuilder = new EmbedBuilder();
                     embedBuilder.AddField("Имя в Стиме:", playerInfo.Profile.Personaname);
                     embedBuilder.AddField("Ссылка на профиль", playerInfo.Profile.Profileurl);
                     embedBuilder.WithThumbnailUrl(playerInfo.Profile.Avatarfull.ToString());
-                    await ReplyAsync("Это ваш профиль? ", false, embedBuilder.Build());
+                    await ReplyAsync("Это ваш профиль? д/н", false, embedBuilder.Build());
                 }
                 else
                 {
