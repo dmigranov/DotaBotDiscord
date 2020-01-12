@@ -12,7 +12,9 @@ namespace DotaBotDiscord
     {
         public static OpenDotaApi _openDota { get; set; }
 
+
         [Command("register", RunMode = RunMode.Async)]
+        [Alias("signup", "su")]
         [Summary("Заполнение анкеты (пишите в личные сообщения боту)")]
         public async Task Register()
         {
@@ -100,7 +102,17 @@ namespace DotaBotDiscord
                 await ReplyAsync("Прошло слишком много времени. Начните регистрацию заново.");
         }
 
+
+        [Command("unregister", RunMode = RunMode.Async)]
+        [Alias("signout", "signoff", "so")]
+        [Summary("Удаление анкеты с сервера")]
+        public async Task Unregister()
+        {
+            //todo
+        }
     }
+
+
 
     public class UserSteamAccount
     {
