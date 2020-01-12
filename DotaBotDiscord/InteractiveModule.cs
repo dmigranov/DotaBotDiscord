@@ -21,7 +21,10 @@ namespace DotaBotDiscord
 
             var channel = Context.Channel as IDMChannel;
             if (channel == null)
+            {
+                await ReplyAsync("Чтобы зарегистрироваться, пишите боту в личные сообщения.");
                 return;
+            }
 
             using (var db = new LiteDatabase(@"BotData.db"))
             {
@@ -104,7 +107,10 @@ namespace DotaBotDiscord
         {
             var channel = Context.Channel as IDMChannel;
             if (channel == null)
+            {
+                await ReplyAsync("Чтобы разрегистрироваться, пишите боту в личные сообщения.");
                 return;
+            }
 
             IUser user = Context.User;
             using var db = new LiteDatabase(@"BotData.db");
