@@ -150,9 +150,33 @@ namespace DotaBotDiscord
 
 
 
-        private async Task<Embed> buildUserStatsEmbedAsync(long playerID_32)
+        private async Task<Embed> BuildUserStatsEmbedAsync(long playerID_32)
         {
+            var playerInfo = await _openDota.Player.GetPlayerByIdAsync(playerID_32);
 
+            EmbedBuilder embedBuilder = new EmbedBuilder();
+
+            embedBuilder.AddField("Имя в Стиме:", playerInfo.Profile.Personaname);
+            embedBuilder.AddField("Ссылка на профиль", playerInfo.Profile.Profileurl);
+            embedBuilder.AddField("MMR:", playerInfo.MmrEstimate.Estimate.HasValue ? playerInfo.MmrEstimate.Estimate.ToString() : "нет");
+            //MMR может быть не актуален: add MMR to your profile card. 
+
+            var playerWinLoss = await _openDota.Player.GetPlayerWinLossByIdAsync(playerID_32);
+            embedBuilder.AddField("Всего игр сыграно:", playerWinLoss.Wins + playerWinLoss.Losses);
+            embedBuilder.AddField("Побед:", playerWinLoss.Wins);
+            embedBuilder.AddField("Поражений:", playerWinLoss.Losses);
+            embedBuilder.WithThumbnailUrl(playerInfo.Profile.Avatarfull.ToString());
+            var playerQueryParameters = new PlayerEndpointParameters
+            {
+                Limit = 20
+            };
+            var playerHeroes = await _openDota.Player.GetPlayerHeroesAsync(playerID_32, playerQueryParameters);
+
+            var playerMostPlayedHeroLast20 = playerHeroes.FirstOrDefault();
+            var hero = heroes[playerMostPlayedHeroLast20.HeroId];
+            embedBuilder.AddField("Самый популярный герой за последние 20 матчей:", playerMostPlayedHeroLast20 != null ? $"{hero.LocalizedName} ({string.Join("; ", hero.Roles)}) с {playerMostPlayedHeroLast20.Win} победами" : "нет информации");
+
+            return embedBuilder.Build();
         }
 
 
