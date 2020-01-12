@@ -65,21 +65,6 @@ namespace DotaBotDiscord
             // Insert a ZWSP before the text to prevent triggering other bots!
             => ReplyAsync('\u200B' + text);
 
-        // 'params' will parse space-separated elements into a list
-        /*
-        [Command("list")]
-        public Task ListAsync(params string[] objects)
-            => ReplyAsync("You listed: " + string.Join("; ", objects));
-        */
-
-        // Setting a custom ErrorMessage property will help clarify the precondition error
-        /*
-        [Command("guild_only")]
-        [RequireContext(ContextType.Guild, ErrorMessage = "Sorry, this command must be ran from within a server, not a DM!")]
-        public Task GuildOnlyCommand()
-            => ReplyAsync("Nothing to see here!");
-        */
-
 
         [Command("help")]
         [Summary("Вывод справки по командам")]
