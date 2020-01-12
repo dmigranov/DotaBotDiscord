@@ -26,11 +26,18 @@ namespace DotaBotDiscord
 
             using (var db = new LiteDatabase(@"BotData.db"))
             {
+                //db.DropCollection("users");
+                var users = db.GetCollection<UserSteamAccount>("users");
 
+                UserSteamAccount existingUser = users.FindOne(x => x.DiscordID == user.Id);
+                if (existingUser != null)
+                {
+                    await ReplyAsync("Такой аккаунт уже есть! Вы можете разрегистрироваться и пройти регистрацию ещё раз.");
+                    return;
+                }
 
                 await user.SendMessageAsync("Здравствуйте! Давайте зарегистрируем Вас в системе. Введите, пожалуйста, Ваш Steam32 ID:");
-
-
+            
             ParseResponse:
 
                 var response = await NextMessageAsync();
@@ -58,27 +65,11 @@ namespace DotaBotDiscord
                             var first = answer[0];
                             if (first == 'д')
                             {
-
-                                //db.DropCollection("users");
-                                var users = db.GetCollection<UserSteamAccount>("users");
-
                                 var userSteamAccount = new UserSteamAccount
                                 {
                                     DiscordID = user.Id,
                                     SteamID = steamID
                                 };
-
-                                UserSteamAccount existingUser = users.FindOne(x => x.DiscordID == user.Id);
-                                if (existingUser == null)
-                                {
-                                    users.Insert(userSteamAccount);
-                                    users.EnsureIndex(x => x.DiscordID);
-                                }
-                                else
-                                {
-                                    await ReplyAsync("Такой аккаунт уже есть! Вы можете разрегистрироваться и пройти регистрацию ещё раз.");
-                                    return;
-                                }
 
 
                                 await ReplyAsync("Вы были успешно зарегистрированы!");
