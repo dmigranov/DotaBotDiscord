@@ -107,9 +107,12 @@ namespace DotaBotDiscord
             //MMR может быть не актуален: add MMR to your profile card. 
 
             var playerWinLoss = await _openDota.Player.GetPlayerWinLossByIdAsync(playerID_32);
-            embedBuilder.AddField("Всего игр сыграно:", playerWinLoss.Wins + playerWinLoss.Losses);
+            int matches = playerWinLoss.Wins + playerWinLoss.Losses;
+            embedBuilder.AddField("Всего игр сыграно:", matches);
             embedBuilder.AddField("Побед:", playerWinLoss.Wins);
             embedBuilder.AddField("Поражений:", playerWinLoss.Losses);
+            if(matches != 0)
+                embedBuilder.AddField("Винрейт:", ((double) playerWinLoss.Wins / matches).ToString("0.##"));
             embedBuilder.WithThumbnailUrl(playerInfo.Profile.Avatarfull.ToString());
             var playerQueryParameters = new PlayerEndpointParameters
             {
@@ -123,6 +126,5 @@ namespace DotaBotDiscord
 
             return embedBuilder.Build();
         }
-
     }
 }
