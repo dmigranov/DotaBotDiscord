@@ -12,7 +12,6 @@ namespace DotaBotDiscord
     {
         public static OpenDotaApi _openDota { get; set; }
 
-
         [Command("register", RunMode = RunMode.Async)]
         [Alias("signup", "su")]
         [Summary("Заполнение анкеты (пишите в личные сообщения боту)")]
@@ -81,7 +80,6 @@ namespace DotaBotDiscord
                                 await ReplyAsync("Попробуйте ввести Steam32ID снова");
                                 goto ParseResponse;
                             }
-
                         }
                         else
                             await ReplyAsync("Прошло слишком много времени. Начните регистрацию заново.");
@@ -112,8 +110,6 @@ namespace DotaBotDiscord
             using var db = new LiteDatabase(@"BotData.db");
             var users = db.GetCollection<UserSteamAccount>("users");
 
-            //UserSteamAccount existingUser = users.FindOne(x => x.DiscordID == user.Id);
-
             if (!users.Exists(x => x.DiscordID == user.Id))
                 await ReplyAsync("Вы не зарегистрированы в системе.");
             else
@@ -123,8 +119,6 @@ namespace DotaBotDiscord
             }
         }
     }
-
-
 
     public class UserSteamAccount
     {
