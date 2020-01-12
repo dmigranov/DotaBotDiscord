@@ -9,6 +9,7 @@ using Discord.WebSocket;
 using OpenDotaDotNet;
 using OpenDotaDotNet.Dtos;
 using Discord.Addons.Interactive;
+using LiteDB;
 
 namespace DotaBotDiscord
 {
@@ -131,6 +132,25 @@ namespace DotaBotDiscord
         [Summary("Вывод информации о профиле Стим по юзеру. Если юзер не указан, то об авторе сообщения")]
         [Command("checkID", RunMode = RunMode.Async)]
         public async Task GetUserStats(IUser user = null)
+        {
+            user = user ?? Context.User;
+
+            using (var db = new LiteDatabase(@"BotData.db"))
+            {
+                var users = db.GetCollection<UserSteamAccount>("users");
+
+                UserSteamAccount userSteamAccount = users.FindOne(x => x.DiscordID == user.Id);
+
+                if(user == null)
+                    await ReplyAsync("Такого аккаунта нет в системе.");
+                else
+
+            }
+        }
+
+
+
+        private async Task<Embed> buildUserStatsEmbedAsync(long playerID_32)
         {
 
         }
