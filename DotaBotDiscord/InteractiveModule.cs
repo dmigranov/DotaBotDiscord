@@ -71,9 +71,9 @@ namespace DotaBotDiscord
                         {
                             using (var db = new LiteDatabase(@"BotData.db"))
                             {
-
+                                db.DropCollection("users");
                                 var users = db.GetCollection<UserSteamAccount>("users");
-                                Console.WriteLine($"{users.Count()}");
+
 
                                 var userSteamAccount = new UserSteamAccount
                                 {
@@ -83,9 +83,11 @@ namespace DotaBotDiscord
 
                                 //todo: вставка без повторений
 
-                                users.Insert(userSteamAccount);
-
-
+                                UserSteamAccount existingUser = users.FindOne(x => x.DiscordID == user.Id);
+                                if(existingUser == null)
+                                    users.Insert(userSteamAccount);
+                                else
+                                    await ReplyAsync("Такой аккаунт уже есть! Вы можете разрегистрироваться и пройти регистрацию ещё раз.");
                                 users.EnsureIndex(x => x.DiscordID);
                             }
 
