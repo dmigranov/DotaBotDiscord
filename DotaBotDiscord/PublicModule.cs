@@ -93,7 +93,7 @@ namespace DotaBotDiscord
 
 
         [Summary("Вывод информации о профиле Стим по юзеру. Если юзер не указан, то об авторе сообщения")]
-        [Command("checkID", RunMode = RunMode.Async)]
+        [Command("get_stats", RunMode = RunMode.Async)]
         public async Task GetUserStats(IUser user = null)
         {
             user = user ?? Context.User;
@@ -110,6 +110,8 @@ namespace DotaBotDiscord
                 await ReplyAsync("Информация об игроке: ", false, await BuildUserStatsEmbedAsync(userSteamAccount.SteamID));
             }
         }
+
+
 
         private async Task<Embed> BuildUserStatsEmbedAsync(long playerID_32)
         {

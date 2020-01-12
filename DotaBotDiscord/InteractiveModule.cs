@@ -64,8 +64,6 @@ namespace DotaBotDiscord
                                     SteamID = steamID
                                 };
 
-                                //todo: вставка без повторений
-
                                 UserSteamAccount existingUser = users.FindOne(x => x.DiscordID == user.Id);
                                 if (existingUser == null)
                                 {
