@@ -28,9 +28,9 @@ namespace DotaBotDiscord
             {
                 //db.DropCollection("users");
                 var users = db.GetCollection<UserSteamAccount>("users");
-
                 UserSteamAccount existingUser = users.FindOne(x => x.DiscordID == user.Id);
-                if (existingUser != null)
+
+                if(existingUser != null)
                 {
                     await ReplyAsync("Такой аккаунт уже есть! Вы можете разрегистрироваться и пройти регистрацию ещё раз.");
                     return;
@@ -71,6 +71,8 @@ namespace DotaBotDiscord
                                     SteamID = steamID
                                 };
 
+                                users.Insert(userSteamAccount);
+                                users.EnsureIndex(x => x.DiscordID);
 
                                 await ReplyAsync("Вы были успешно зарегистрированы!");
                             }
