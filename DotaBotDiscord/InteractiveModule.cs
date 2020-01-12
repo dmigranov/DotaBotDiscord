@@ -104,6 +104,10 @@ namespace DotaBotDiscord
         [Summary("Удаление анкеты с сервера")]
         public async Task Unregister()
         {
+            var channel = Context.Channel as IDMChannel;
+            if (channel == null)
+                return;
+
             IUser user = Context.User;
             using var db = new LiteDatabase(@"BotData.db");
             var users = db.GetCollection<UserSteamAccount>("users");
