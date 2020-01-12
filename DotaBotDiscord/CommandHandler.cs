@@ -89,8 +89,8 @@ namespace DotaBotDiscord
             // to be executed; however, this may not always be desired,
             // as it may clog up the request queue should a user spam a
             // command.
-            // if (!result.IsSuccess)
-            // await context.Channel.SendMessageAsync(result.ErrorReason);
+            if (!result.IsSuccess)
+                await context.Channel.SendMessageAsync(result.ErrorReason);
         }
     }
 }
