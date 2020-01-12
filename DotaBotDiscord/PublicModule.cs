@@ -102,11 +102,17 @@ namespace DotaBotDiscord
 
             embedBuilder.AddField("Имя в Стиме:", playerInfo.Profile.Personaname);
             embedBuilder.AddField("Ссылка на профиль", playerInfo.Profile.Profileurl);
+            embedBuilder.AddField("Ссылка на OpenDota: ", $"https://www.opendota.com/players/{playerID_32}");
+
             embedBuilder.AddField("MMR:", playerInfo.MmrEstimate.Estimate.HasValue ? playerInfo.MmrEstimate.Estimate.ToString() : "нет");
             //MMR может быть не актуален: add MMR to your profile card. 
             embedBuilder.AddField("Ранг: ", playerInfo.LeaderboardRank.HasValue ? playerInfo.LeaderboardRank.ToString() : "нет");
+            embedBuilder.AddField("Страна: ", playerInfo.Profile.Loccountrycode != null ? GetFlag(playerInfo.Profile.Loccountrycode) : "неизвестно");
+
+
 
             var playerWinLoss = await _openDota.Player.GetPlayerWinLossByIdAsync(playerID_32);
+
             int matches = playerWinLoss.Wins + playerWinLoss.Losses;
             embedBuilder.AddField("Всего игр сыграно:", matches);
             embedBuilder.AddField("Побед:", playerWinLoss.Wins);
@@ -126,5 +132,20 @@ namespace DotaBotDiscord
 
             return embedBuilder.Build();
         }
+
+        private string GetFlag(string country)
+        {
+            int flagOffset = 0x1F1E6;
+            int asciiOffset = 0x41;
+
+
+            int firstChar = country[0] - asciiOffset + flagOffset;
+            int secondChar = country[1] - asciiOffset + flagOffset;
+
+            return new string(char.ConvertFromUtf32(firstChar))
+                        + new string(char.ConvertFromUtf32(secondChar));
+        }
+
+
     }
 }
