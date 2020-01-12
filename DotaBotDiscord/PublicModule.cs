@@ -85,7 +85,7 @@ namespace DotaBotDiscord
         }
 
         [Summary("Вывод информации о профиле Стим по Steam32 ID ")]
-        [Command("checkSteamID", RunMode = RunMode.Async)]
+        [Command("check_steam", RunMode = RunMode.Async)]
         public async Task AddSteamID(long playerID_32)
         {
             await ReplyAsync("Информация об игроке: ", false, await BuildUserStatsEmbedAsync(playerID_32));
