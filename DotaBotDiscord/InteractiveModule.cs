@@ -112,13 +112,14 @@ namespace DotaBotDiscord
             {
                 var users = db.GetCollection<UserSteamAccount>("users");
 
-                UserSteamAccount existingUser = users.FindOne(x => x.DiscordID == user.Id);
+                //UserSteamAccount existingUser = users.FindOne(x => x.DiscordID == user.Id);
 
-                if(existingUser == null)
+                if(!users.Exists(x => x.DiscordID == user.Id))
                     await ReplyAsync("Вы не зарегистрированы в системе.");
                 else
                 {
-
+                    users.Delete(x => x.DiscordID == user.Id);
+                    await ReplyAsync("Вы были успешно разрегистрированы.");
                 }
 
 
