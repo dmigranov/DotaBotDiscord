@@ -99,7 +99,7 @@ namespace DotaBotDiscord
         }
 
         [Summary("Вывод информации о профиле Стим по Steam32 ID ")]
-        [Command("checkID", RunMode = RunMode.Async)]
+        [Command("checkSteamID", RunMode = RunMode.Async)]
         public async Task AddSteamID(long playerID_32)
         {
             var playerInfo = await _openDota.Player.GetPlayerByIdAsync(playerID_32);
@@ -126,6 +126,13 @@ namespace DotaBotDiscord
             var hero = heroes[playerMostPlayedHeroLast20.HeroId];
             embedBuilder.AddField("Самый популярный герой за последние 20 матчей:", playerMostPlayedHeroLast20 != null ? $"{hero.LocalizedName} ({string.Join("; ", hero.Roles)}) с {playerMostPlayedHeroLast20.Win} победами" : "нет информации");
             await ReplyAsync("Информация об игроке: ", false, embedBuilder.Build());
+        }
+
+        [Summary("Вывод информации о профиле Стим по юзеру. Если юзер не указан, то об авторе сообщения")]
+        [Command("checkID", RunMode = RunMode.Async)]
+        public async Task GetUserStats(IUser user = null)
+        {
+
         }
 
 
