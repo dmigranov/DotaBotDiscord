@@ -108,21 +108,17 @@ namespace DotaBotDiscord
         public async Task Unregister()
         {
             IUser user = Context.User;
-            using (var db = new LiteDatabase(@"BotData.db"))
+            using var db = new LiteDatabase(@"BotData.db");
+            var users = db.GetCollection<UserSteamAccount>("users");
+
+            //UserSteamAccount existingUser = users.FindOne(x => x.DiscordID == user.Id);
+
+            if (!users.Exists(x => x.DiscordID == user.Id))
+                await ReplyAsync("Вы не зарегистрированы в системе.");
+            else
             {
-                var users = db.GetCollection<UserSteamAccount>("users");
-
-                //UserSteamAccount existingUser = users.FindOne(x => x.DiscordID == user.Id);
-
-                if(!users.Exists(x => x.DiscordID == user.Id))
-                    await ReplyAsync("Вы не зарегистрированы в системе.");
-                else
-                {
-                    users.Delete(x => x.DiscordID == user.Id);
-                    await ReplyAsync("Вы были успешно разрегистрированы.");
-                }
-
-
+                users.Delete(x => x.DiscordID == user.Id);
+                await ReplyAsync("Вы были успешно разрегистрированы.");
             }
         }
     }
