@@ -98,18 +98,16 @@ namespace DotaBotDiscord
         {
             user = user ?? Context.User;
 
-            using (var db = new LiteDatabase(@"BotData.db"))
+            using var db = new LiteDatabase(@"BotData.db");
+            var users = db.GetCollection<UserSteamAccount>("users");
+
+            UserSteamAccount userSteamAccount = users.FindOne(x => x.DiscordID == user.Id);
+
+            if (user == null)
+                await ReplyAsync("Такого аккаунта нет в системе.");
+            else
             {
-                var users = db.GetCollection<UserSteamAccount>("users");
-
-                UserSteamAccount userSteamAccount = users.FindOne(x => x.DiscordID == user.Id);
-
-                if(user == null)
-                    await ReplyAsync("Такого аккаунта нет в системе.");
-                else
-                {
-                    //await ReplyAsync("Информация об игроке: ", false, await BuildUserStatsEmbedAsync(playerID_32));
-                }
+                await ReplyAsync("Информация об игроке: ", false, await BuildUserStatsEmbedAsync(userSteamAccount.SteamID));
             }
         }
 
