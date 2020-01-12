@@ -103,9 +103,9 @@ namespace DotaBotDiscord
         [Command("checkSteamID", RunMode = RunMode.Async)]
         public async Task AddSteamID(long playerID_32)
         {
-            
             await ReplyAsync("Информация об игроке: ", false, await BuildUserStatsEmbedAsync(playerID_32));
         }
+
 
         [Summary("Вывод информации о профиле Стим по юзеру. Если юзер не указан, то об авторе сообщения")]
         [Command("checkID", RunMode = RunMode.Async)]
@@ -121,12 +121,12 @@ namespace DotaBotDiscord
 
                 if(user == null)
                     await ReplyAsync("Такого аккаунта нет в системе.");
-                //else
-
+                else
+                {
+                    //await ReplyAsync("Информация об игроке: ", false, await BuildUserStatsEmbedAsync(playerID_32));
+                }
             }
         }
-
-
 
         private async Task<Embed> BuildUserStatsEmbedAsync(long playerID_32)
         {
@@ -157,9 +157,5 @@ namespace DotaBotDiscord
             return embedBuilder.Build();
         }
 
-
-
-
     }
-
 }
