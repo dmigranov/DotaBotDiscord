@@ -59,7 +59,6 @@ namespace DotaBotDiscord
                                 //db.DropCollection("users");
                                 var users = db.GetCollection<UserSteamAccount>("users");
 
-
                                 var userSteamAccount = new UserSteamAccount
                                 {
                                     DiscordID = user.Id,
@@ -108,7 +107,22 @@ namespace DotaBotDiscord
         [Summary("Удаление анкеты с сервера")]
         public async Task Unregister()
         {
-            //todo
+            IUser user = Context.User;
+            using (var db = new LiteDatabase(@"BotData.db"))
+            {
+                var users = db.GetCollection<UserSteamAccount>("users");
+
+                UserSteamAccount existingUser = users.FindOne(x => x.DiscordID == user.Id);
+
+                if(existingUser == null)
+                    await ReplyAsync("Вы не зарегистрированы в системе.");
+                else
+                {
+
+                }
+
+
+            }
         }
     }
 
