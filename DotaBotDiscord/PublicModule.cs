@@ -98,13 +98,13 @@ namespace DotaBotDiscord
         private async Task<Embed> BuildUserStatsEmbedAsync(long playerID_32)
         {
             var playerInfo = await _openDota.Player.GetPlayerByIdAsync(playerID_32);
-
             EmbedBuilder embedBuilder = new EmbedBuilder();
 
             embedBuilder.AddField("Имя в Стиме:", playerInfo.Profile.Personaname);
             embedBuilder.AddField("Ссылка на профиль", playerInfo.Profile.Profileurl);
             embedBuilder.AddField("MMR:", playerInfo.MmrEstimate.Estimate.HasValue ? playerInfo.MmrEstimate.Estimate.ToString() : "нет");
             //MMR может быть не актуален: add MMR to your profile card. 
+            embedBuilder.AddField("Ранг: ", playerInfo.LeaderboardRank.HasValue ? playerInfo.LeaderboardRank.ToString() : "нет");
 
             var playerWinLoss = await _openDota.Player.GetPlayerWinLossByIdAsync(playerID_32);
             int matches = playerWinLoss.Wins + playerWinLoss.Losses;
