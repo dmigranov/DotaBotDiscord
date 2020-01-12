@@ -24,38 +24,41 @@ namespace DotaBotDiscord
             if (channel == null)
                 return;
 
-            await user.SendMessageAsync("Здравствуйте! Давайте зарегистрируем Вас в системе. Введите, пожалуйста, Ваш Steam32 ID:");
-        
-        
-        ParseResponse:
-
-            var response = await NextMessageAsync();
-            if (response != null)
+            using (var db = new LiteDatabase(@"BotData.db"))
             {
-                long steamID;
-                if (long.TryParse(response.Content, out steamID))
+
+
+                await user.SendMessageAsync("Здравствуйте! Давайте зарегистрируем Вас в системе. Введите, пожалуйста, Ваш Steam32 ID:");
+
+
+            ParseResponse:
+
+                var response = await NextMessageAsync();
+                if (response != null)
                 {
-                    var playerInfo = await _openDota.Player.GetPlayerByIdAsync(steamID);
-                    if (playerInfo == null || playerInfo.Profile == null)
+                    long steamID;
+                    if (long.TryParse(response.Content, out steamID))
                     {
-                        await ReplyAsync("Профиль не найден, попробуйте ввести Steam32ID снова");
-                        goto ParseResponse;
-                    }
-                    EmbedBuilder embedBuilder = new EmbedBuilder();
-                    embedBuilder.AddField("Имя в Стиме:", playerInfo.Profile.Personaname);
-                    embedBuilder.AddField("Ссылка на профиль", playerInfo.Profile.Profileurl);
-                    embedBuilder.WithThumbnailUrl(playerInfo.Profile.Avatarfull.ToString());
-                    await ReplyAsync("Это ваш профиль? д/н", false, embedBuilder.Build());
-                    var ynResponce = await NextMessageAsync();
-                    if(ynResponce != null)
-                    {
-                        var answer = ynResponce.Content;
-                        answer = answer.ToLower();
-                        var first = answer[0];
-                        if (first == 'д')
+                        var playerInfo = await _openDota.Player.GetPlayerByIdAsync(steamID);
+                        if (playerInfo == null || playerInfo.Profile == null)
                         {
-                            using (var db = new LiteDatabase(@"BotData.db"))
+                            await ReplyAsync("Профиль не найден, попробуйте ввести Steam32ID снова");
+                            goto ParseResponse;
+                        }
+                        EmbedBuilder embedBuilder = new EmbedBuilder();
+                        embedBuilder.AddField("Имя в Стиме:", playerInfo.Profile.Personaname);
+                        embedBuilder.AddField("Ссылка на профиль", playerInfo.Profile.Profileurl);
+                        embedBuilder.WithThumbnailUrl(playerInfo.Profile.Avatarfull.ToString());
+                        await ReplyAsync("Это ваш профиль? д/н", false, embedBuilder.Build());
+                        var ynResponce = await NextMessageAsync();
+                        if (ynResponce != null)
+                        {
+                            var answer = ynResponce.Content;
+                            answer = answer.ToLower();
+                            var first = answer[0];
+                            if (first == 'д')
                             {
+
                                 //db.DropCollection("users");
                                 var users = db.GetCollection<UserSteamAccount>("users");
 
@@ -76,29 +79,30 @@ namespace DotaBotDiscord
                                     await ReplyAsync("Такой аккаунт уже есть! Вы можете разрегистрироваться и пройти регистрацию ещё раз.");
                                     return;
                                 }
+
+
+                                await ReplyAsync("Вы были успешно зарегистрированы!");
+                            }
+                            else if (first == 'н')
+                            {
+                                await ReplyAsync("Попробуйте ввести Steam32ID снова");
+                                goto ParseResponse;
                             }
 
-                            await ReplyAsync("Вы были успешно зарегистрированы!");
                         }
-                        else if (first == 'н')
-                        {
-                            await ReplyAsync("Попробуйте ввести Steam32ID снова");
-                            goto ParseResponse;
-                        }  
-
+                        else
+                            await ReplyAsync("Прошло слишком много времени. Начните регистрацию заново.");
                     }
                     else
-                        await ReplyAsync("Прошло слишком много времени. Начните регистрацию заново.");
+                    {
+                        await ReplyAsync("Неправильный ввод, попробуйте ввести Steam32ID снова");
+                        goto ParseResponse;
+                    }
+
                 }
                 else
-                {
-                    await ReplyAsync("Неправильный ввод, попробуйте ввести Steam32ID снова");
-                    goto ParseResponse;
-                }
-
+                    await ReplyAsync("Прошло слишком много времени. Начните регистрацию заново.");
             }
-            else
-                await ReplyAsync("Прошло слишком много времени. Начните регистрацию заново.");
         }
 
 
