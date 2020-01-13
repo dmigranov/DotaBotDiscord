@@ -109,7 +109,7 @@ namespace DotaBotDiscord
             embedBuilder.AddField("Ранг: ", playerInfo.LeaderboardRank.HasValue ? playerInfo.LeaderboardRank.ToString() : "нет", true);
             embedBuilder.AddField("Страна: ", playerInfo.Profile.Loccountrycode != null ? GetFlag(playerInfo.Profile.Loccountrycode) : "неизвестно");
 
-
+            //embedBuilder.WithTimestamp(DateTimeOffset.Now);
 
             var playerWinLoss = await _openDota.Player.GetPlayerWinLossByIdAsync(playerID_32);
 
