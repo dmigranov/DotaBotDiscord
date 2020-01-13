@@ -136,7 +136,7 @@ namespace DotaBotDiscord
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.Color = Color.Green;
 
-            embedBuilder.AddField("Имя в Стиме:", playerInfo.Profile.Personaname, true);
+            embedBuilder.AddField("Имя в Стиме:", $"**{playerInfo.Profile.Personaname}**", true);
             embedBuilder.AddField("Последний раз в сети:", playerInfo.Profile.LastLogin.HasValue ? playerInfo.Profile.LastLogin?.ToString("dd.mm.yyyy, HH:mm", CultureInfo.InvariantCulture) : "неизвестно", true);
             embedBuilder.AddField("Ссылка на профиль", playerInfo.Profile.Profileurl);
             embedBuilder.AddField("Ссылка на OpenDota: ", $"https://www.opendota.com/players/{playerID_32}");
@@ -164,7 +164,7 @@ namespace DotaBotDiscord
 
             var playerMostPlayedHeroLast20 = playerHeroes.FirstOrDefault();
             var hero = heroes[playerMostPlayedHeroLast20.HeroId];
-            embedBuilder.AddField("Самый популярный герой за последние 20 матчей:", playerMostPlayedHeroLast20 != null ? $"{hero.LocalizedName} ({string.Join("; ", hero.Roles)}) с {playerMostPlayedHeroLast20.Win} победами" : "нет информации");
+            embedBuilder.AddField("Самый популярный герой за последние 20 матчей:", playerMostPlayedHeroLast20 != null ? $"{hero.LocalizedName} (*{string.Join("; ", hero.Roles)}*) с {playerMostPlayedHeroLast20.Win} победами" : "нет информации");
             embedBuilder.WithFooter(new EmbedFooterBuilder().WithText("Чтобы получить больше информации, воспользуйтесь командой !get_stats_extra или !check_steam_extra"));
 
             return embedBuilder.Build();
@@ -176,7 +176,7 @@ namespace DotaBotDiscord
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.Color = Color.Green;
 
-            embedBuilder.AddField("Имя в Стиме:", playerInfo.Profile.Personaname, true);
+            embedBuilder.AddField("Имя в Стиме:", $"**{playerInfo.Profile.Personaname}**", true);
             embedBuilder.AddField("Последний раз в сети:", playerInfo.Profile.LastLogin.HasValue ? playerInfo.Profile.LastLogin?.ToString("dd.mm.yyyy, HH:mm", CultureInfo.InvariantCulture) : "неизвестно", true);
             embedBuilder.AddField("Ссылка на профиль", playerInfo.Profile.Profileurl);
 
