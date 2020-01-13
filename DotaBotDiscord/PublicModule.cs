@@ -170,11 +170,27 @@ namespace DotaBotDiscord
 
             embedBuilder.AddField("Имя в Стиме:", playerInfo.Profile.Personaname, true);
             embedBuilder.AddField("Последний раз в сети:", playerInfo.Profile.LastLogin.HasValue ? playerInfo.Profile.LastLogin?.ToString("dd.mm.yyyy, HH:mm", CultureInfo.InvariantCulture) : "неизвестно", true);
+            embedBuilder.AddField("Ссылка на профиль", playerInfo.Profile.Profileurl);
+
+            var param = new PlayerEndpointParameters();
 
             var playerTotals = await _openDota.Player.GetPlayerTotalsAsync(playerID_32);
-            foreach(var playerTotal in playerTotals)
+            
+            for (int i = 0; i < playerTotals.Count - 1; i++)
             {
-                embedBuilder.AddField(playerTotal.Field, playerTotal.Number);
+                OpenDotaDotNet.Models.Players.PlayerTotal playerTotal = playerTotals[i];
+                Console.WriteLine(playerTotal.Field + " " + playerTotal?.Sum);
+                //embedBuilder.AddField(playerTotal.Field, playerTotal.Sum.ToString(), true);
+                switch(playerTotal.Field)
+                {
+                    case "kills":
+                        embedBuilder.AddField("Убийств", playerTotal.Sum.ToString(), true);
+                        break;
+                    case "deaths":
+                        embedBuilder.AddField("Смертей", playerTotal.Sum.ToString(), true);
+                        break;
+
+                }
             }
 
 
