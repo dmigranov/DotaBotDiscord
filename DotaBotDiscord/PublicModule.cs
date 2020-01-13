@@ -40,6 +40,7 @@ namespace DotaBotDiscord
 
 
         [Command("help")]
+        [Alias("h")]
         [Summary("Вывод справки по командам")]
         public async Task Help()
         {
@@ -82,6 +83,8 @@ namespace DotaBotDiscord
 
         [Summary("Вывод информации о профиле Стим и игровой статистики по юзеру. Если юзер не указан, то об авторе сообщения")]
         [Command("get_stats", RunMode = RunMode.Async)]
+        [Alias("stats")]
+
         public async Task GetUserStats(IUser user = null)
         {
             user = user ?? Context.User;
@@ -105,6 +108,8 @@ namespace DotaBotDiscord
 
         [Summary("Вывод дополнительной информации о профиле Стим и игровой статистики по юзеру. Если юзер не указан, то об авторе сообщения")]
         [Command("get_stats_extra", RunMode = RunMode.Async)]
+        [Alias("stats_e")]
+
         public async Task GetUserStatsExtra(IUser user = null)
         {
             user = user ?? Context.User;
