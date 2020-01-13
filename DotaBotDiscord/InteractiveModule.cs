@@ -102,7 +102,7 @@ namespace DotaBotDiscord
 
         [Command("unregister", RunMode = RunMode.Async)]
         [Alias("signout", "signoff", "so")]
-        [Summary("Удаление анкеты с сервера")]
+        [Summary("Удаление анкеты с сервера (пишите в личные сообщения боту)")]
         public async Task Unregister()
         {
             var channel = Context.Channel as IDMChannel;

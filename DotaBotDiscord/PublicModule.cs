@@ -67,7 +67,7 @@ namespace DotaBotDiscord
 
         [Summary("Вывод информации о профиле Стим по Steam32 ID ")]
         [Command("check_steam", RunMode = RunMode.Async)]
-        public async Task AddSteamID(long playerID_32)
+        public async Task CheckSteamID(long playerID_32)
         {
             var emoji = new Emoji("\uD83D\uDC4C");
 
@@ -76,6 +76,16 @@ namespace DotaBotDiscord
 
         }
 
+        [Summary("Вывод дополнительной информации о профиле Стим по Steam32 ID ")]
+        [Command("check_steam_extra", RunMode = RunMode.Async)]
+        public async Task CheckSteamIDExtra(long playerID_32)
+        {
+            var emoji = new Emoji("\uD83D\uDC4C");
+
+            var msg = await ReplyAsync("Информация об игроке: ", false, await BuildUserStatsExtraEmbedAsync(playerID_32));
+            await msg.AddReactionAsync(emoji);
+
+        }
 
         [Summary("Вывод информации о профиле Стим и игровой статистики по юзеру. Если юзер не указан, то об авторе сообщения")]
         [Command("get_stats", RunMode = RunMode.Async)]
@@ -88,7 +98,7 @@ namespace DotaBotDiscord
 
             UserSteamAccount userSteamAccount = users.FindOne(x => x.DiscordID == user.Id);
 
-            if (user == null)
+            if (userSteamAccount == null)
                 await ReplyAsync("Такого аккаунта нет в системе.");
             else
             {
@@ -111,7 +121,7 @@ namespace DotaBotDiscord
 
             UserSteamAccount userSteamAccount = users.FindOne(x => x.DiscordID == user.Id);
 
-            if (user == null)
+            if (userSteamAccount == null)
                 await ReplyAsync("Такого аккаунта нет в системе.");
             else
             {
@@ -157,7 +167,7 @@ namespace DotaBotDiscord
             var playerMostPlayedHeroLast20 = playerHeroes.FirstOrDefault();
             var hero = heroes[playerMostPlayedHeroLast20.HeroId];
             embedBuilder.AddField("Самый популярный герой за последние 20 матчей:", playerMostPlayedHeroLast20 != null ? $"{hero.LocalizedName} ({string.Join("; ", hero.Roles)}) с {playerMostPlayedHeroLast20.Win} победами" : "нет информации");
-            embedBuilder.WithFooter(new EmbedFooterBuilder().WithText("Чтобы получить больше информации, воспользуйтесь командой !get_stats_extra"));
+            embedBuilder.WithFooter(new EmbedFooterBuilder().WithText("Чтобы получить больше информации, воспользуйтесь командой !get_stats_extra или !check_steam_extra"));
 
             return embedBuilder.Build();
         }
@@ -179,8 +189,6 @@ namespace DotaBotDiscord
             for (int i = 0; i < playerTotals.Count - 1; i++)
             {
                 OpenDotaDotNet.Models.Players.PlayerTotal playerTotal = playerTotals[i];
-                Console.WriteLine(playerTotal.Field + " " + playerTotal?.Sum);
-                //embedBuilder.AddField(playerTotal.Field, playerTotal.Sum.ToString(), true);
                 switch(playerTotal.Field)
                 {
                     case "kills":
@@ -219,12 +227,11 @@ namespace DotaBotDiscord
                 }
             }
 
-
             embedBuilder.WithTimestamp(DateTimeOffset.Now);
 
             embedBuilder.WithThumbnailUrl(playerInfo.Profile.Avatarfull.ToString());
 
-            embedBuilder.WithFooter(new EmbedFooterBuilder().WithText("Чтобы получить основную информацию, воспользуйтесь командой !get_stats"));
+            embedBuilder.WithFooter(new EmbedFooterBuilder().WithText("Чтобы получить основную информацию, воспользуйтесь командой !get_stats или !check_steam"));
 
             return embedBuilder.Build();
         }
