@@ -101,7 +101,8 @@ namespace DotaBotDiscord
             embedBuilder.Color = Color.Green;
 
 
-            embedBuilder.AddField("Имя в Стиме:", playerInfo.Profile.Personaname);
+            embedBuilder.AddField("Имя в Стиме:", playerInfo.Profile.Personaname, true);
+            embedBuilder.AddField("Последний раз в сети:", playerInfo.Profile.LastLogin.HasValue ? playerInfo.Profile.LastLogin.ToString() : "неизвестно", true);
             embedBuilder.AddField("Ссылка на профиль", playerInfo.Profile.Profileurl);
             embedBuilder.AddField("Ссылка на OpenDota: ", $"https://www.opendota.com/players/{playerID_32}");
             embedBuilder.AddField("MMR:", playerInfo.MmrEstimate.Estimate.HasValue ? playerInfo.MmrEstimate.Estimate.ToString() : "нет", true);
@@ -119,7 +120,6 @@ namespace DotaBotDiscord
             embedBuilder.AddField("Побед:", playerWinLoss.Wins, true);
             embedBuilder.AddField("Поражений:", playerWinLoss.Losses, true);
             embedBuilder.AddField("Винрейт:", matches != 0 ? ((double)playerWinLoss.Wins / matches).ToString("0.##") : "неизвестно", true);
-
             embedBuilder.WithThumbnailUrl(playerInfo.Profile.Avatarfull.ToString());
             var playerQueryParameters = new PlayerEndpointParameters
             {
