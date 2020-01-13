@@ -193,8 +193,10 @@ namespace DotaBotDiscord
                         embedBuilder.AddField("Помощи:", playerTotal.Sum.ToString(), true);
                         break;
                     case "duration":
-                        embedBuilder.AddField("Играет уже:", 
-                            new DateTime(TimeSpan.FromSeconds(playerTotal.Sum).Ticks).ToString("ddд hhч mmм ssс"), true);
+                        var duration = TimeSpan.FromSeconds(playerTotal.Sum);
+                        string output = $"{duration.Days}д {duration.Hours}ч {duration.Minutes}м {duration.Seconds}с";
+                        embedBuilder.AddField("Играет уже:",
+                            output, true);
                         break;
                 }
             }
