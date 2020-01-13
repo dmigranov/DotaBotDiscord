@@ -92,10 +92,9 @@ namespace DotaBotDiscord
                 await ReplyAsync("Информация об игроке: ", false, await BuildUserStatsEmbedAsync(userSteamAccount.SteamID));
             }
         }
+    
 
-
-
-        private async Task<Embed> BuildUserStatsEmbedAsync(long playerID_32)
+    private async Task<Embed> BuildUserStatsEmbedAsync(long playerID_32)
         {
             var playerInfo = await _openDota.Player.GetPlayerByIdAsync(playerID_32);
             EmbedBuilder embedBuilder = new EmbedBuilder();
@@ -147,6 +146,9 @@ namespace DotaBotDiscord
             return new string(char.ConvertFromUtf32(firstChar))
                         + new string(char.ConvertFromUtf32(secondChar));
         }
+
+
+
 
 
     }

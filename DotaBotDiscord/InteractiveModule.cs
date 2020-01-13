@@ -32,14 +32,14 @@ namespace DotaBotDiscord
                 var users = db.GetCollection<UserSteamAccount>("users");
                 UserSteamAccount existingUser = users.FindOne(x => x.DiscordID == user.Id);
 
-                if(existingUser != null)
+                if (existingUser != null)
                 {
                     await ReplyAsync("Такой аккаунт уже есть! Вы можете разрегистрироваться и пройти регистрацию ещё раз.");
                     return;
                 }
 
                 await user.SendMessageAsync("Здравствуйте! Давайте зарегистрируем Вас в системе. Введите, пожалуйста, Ваш Steam32 ID:");
-            
+
             ParseResponse:
 
                 var response = await NextMessageAsync();
@@ -125,27 +125,7 @@ namespace DotaBotDiscord
             }
         }
 
-        [Command("get_stats_paged", RunMode = RunMode.Async)]
-        [Summary("Получение пагинированной статистики")]
-        public async Task GetUserStatsPaged(IUser user = null)
-        {
-            user = user ?? Context.User;
-
-            using var db = new LiteDatabase(@"BotData.db");
-            var users = db.GetCollection<UserSteamAccount>("users");
-
-            UserSteamAccount userSteamAccount = users.FindOne(x => x.DiscordID == user.Id);
-
-            if (user == null)
-                await ReplyAsync("Такого аккаунта нет в системе.");
-            else
-            {
-                //await ReplyAsync("Информация об игроке: ", false, await BuildUserStatsEmbedAsync(userSteamAccount.SteamID));
-                await PagedReplyAsync(new[] { await BuildUserStatsEmbedAsync(userSteamAccount.SteamID), "Page 2", "Page 3", "aaaaaa", "Page 5" });
-            }
-        }
     }
-
     public class UserSteamAccount
     {
         public int Id { get; set; }
