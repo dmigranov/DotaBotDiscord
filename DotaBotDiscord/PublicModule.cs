@@ -10,6 +10,7 @@ using OpenDotaDotNet;
 using OpenDotaDotNet.Dtos;
 using Discord.Addons.Interactive;
 using LiteDB;
+using System.Globalization;
 
 namespace DotaBotDiscord
 {
@@ -70,7 +71,11 @@ namespace DotaBotDiscord
         [Command("check_steam", RunMode = RunMode.Async)]
         public async Task AddSteamID(long playerID_32)
         {
-            await ReplyAsync("Информация об игроке: ", false, await BuildUserStatsEmbedAsync(playerID_32));
+            var emoji = new Emoji("\uD83D\uDC4C");
+
+            var msg = await ReplyAsync("Информация об игроке: ", false, await BuildUserStatsEmbedAsync(playerID_32));
+            await msg.AddReactionAsync(emoji);
+
         }
 
 
@@ -89,7 +94,10 @@ namespace DotaBotDiscord
                 await ReplyAsync("Такого аккаунта нет в системе.");
             else
             {
-                await ReplyAsync("Информация об игроке: ", false, await BuildUserStatsEmbedAsync(userSteamAccount.SteamID));
+                var emoji = new Emoji("\uD83D\uDC4C");
+
+                var msg = await ReplyAsync("Информация об игроке: ", false, await BuildUserStatsEmbedAsync(userSteamAccount.SteamID));
+                await msg.AddReactionAsync(emoji);
             }
         }
     
@@ -102,7 +110,7 @@ namespace DotaBotDiscord
 
 
             embedBuilder.AddField("Имя в Стиме:", playerInfo.Profile.Personaname, true);
-            embedBuilder.AddField("Последний раз в сети:", playerInfo.Profile.LastLogin.HasValue ? playerInfo.Profile.LastLogin.ToString() : "неизвестно", true);
+            embedBuilder.AddField("Последний раз в сети:", playerInfo.Profile.LastLogin.HasValue ? playerInfo.Profile.LastLogin?.ToString("dd.mm.yyyy, HH:mm", CultureInfo.InvariantCulture) : "неизвестно", true);
             embedBuilder.AddField("Ссылка на профиль", playerInfo.Profile.Profileurl);
             embedBuilder.AddField("Ссылка на OpenDota: ", $"https://www.opendota.com/players/{playerID_32}");
             embedBuilder.AddField("MMR:", playerInfo.MmrEstimate.Estimate.HasValue ? playerInfo.MmrEstimate.Estimate.ToString() : "нет", true);
@@ -130,6 +138,8 @@ namespace DotaBotDiscord
             var playerMostPlayedHeroLast20 = playerHeroes.FirstOrDefault();
             var hero = heroes[playerMostPlayedHeroLast20.HeroId];
             embedBuilder.AddField("Самый популярный герой за последние 20 матчей:", playerMostPlayedHeroLast20 != null ? $"{hero.LocalizedName} ({string.Join("; ", hero.Roles)}) с {playerMostPlayedHeroLast20.Win} победами" : "нет информации");
+
+            ;
 
             return embedBuilder.Build();
         }
