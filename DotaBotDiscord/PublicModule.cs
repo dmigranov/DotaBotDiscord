@@ -128,7 +128,6 @@ namespace DotaBotDiscord
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.Color = Color.Green;
 
-
             embedBuilder.AddField("Имя в Стиме:", playerInfo.Profile.Personaname, true);
             embedBuilder.AddField("Последний раз в сети:", playerInfo.Profile.LastLogin.HasValue ? playerInfo.Profile.LastLogin?.ToString("dd.mm.yyyy, HH:mm", CultureInfo.InvariantCulture) : "неизвестно", true);
             embedBuilder.AddField("Ссылка на профиль", playerInfo.Profile.Profileurl);
@@ -170,7 +169,15 @@ namespace DotaBotDiscord
             embedBuilder.Color = Color.Green;
 
             embedBuilder.AddField("Имя в Стиме:", playerInfo.Profile.Personaname, true);
-       
+            embedBuilder.AddField("Последний раз в сети:", playerInfo.Profile.LastLogin.HasValue ? playerInfo.Profile.LastLogin?.ToString("dd.mm.yyyy, HH:mm", CultureInfo.InvariantCulture) : "неизвестно", true);
+
+            var playerTotals = await _openDota.Player.GetPlayerTotalsAsync(playerID_32);
+            foreach(var playerTotal in playerTotals)
+            {
+                embedBuilder.AddField(playerTotal.Field, playerTotal.Number);
+            }
+
+
             embedBuilder.WithTimestamp(DateTimeOffset.Now);
 
             embedBuilder.WithThumbnailUrl(playerInfo.Profile.Avatarfull.ToString());
