@@ -196,7 +196,13 @@ namespace DotaBotDiscord
                         var duration = TimeSpan.FromSeconds(playerTotal.Sum);
                         string output = $"{duration.Days}д {duration.Hours}ч {duration.Minutes}м {duration.Seconds}с";
                         embedBuilder.AddField("Играет уже:",
-                            output, true);
+                            output);
+                        break;
+                    case "last_hits":
+                        embedBuilder.AddField("Добито крипов:", playerTotal.Sum.ToString(), true);
+                        break;
+                    case "denies":
+                        embedBuilder.AddField("Добито своих крипов:", playerTotal.Sum.ToString(), true);
                         break;
                 }
             }
