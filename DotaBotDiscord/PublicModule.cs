@@ -204,6 +204,18 @@ namespace DotaBotDiscord
                     case "denies":
                         embedBuilder.AddField("Добито своих крипов:", playerTotal.Sum.ToString(), true);
                         break;
+                    case "level":
+                        embedBuilder.AddField("Уровней взято:", playerTotal.Sum.ToString());
+                        break;
+                    case "hero_damage":
+                        embedBuilder.AddField("Урон по героям:", playerTotal.Sum.ToString(), true);
+                        break;
+                    case "tower_damage":
+                        embedBuilder.AddField("Урон по строениям:", playerTotal.Sum.ToString(), true);
+                        break;
+                    case "hero_healing":
+                        embedBuilder.AddField("Здоровья исцелено:", playerTotal.Sum.ToString(), true);
+                        break;
                 }
             }
 
