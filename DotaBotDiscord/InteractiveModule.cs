@@ -124,6 +124,26 @@ namespace DotaBotDiscord
                 await ReplyAsync("Вы были успешно разрегистрированы.");
             }
         }
+
+        [Command("get_stats_paged", RunMode = RunMode.Async)]
+        [Summary("Получение пагинированной статистики")]
+        public async Task GetUserStatsPaged(IUser user = null)
+        {
+            user = user ?? Context.User;
+
+            using var db = new LiteDatabase(@"BotData.db");
+            var users = db.GetCollection<UserSteamAccount>("users");
+
+            UserSteamAccount userSteamAccount = users.FindOne(x => x.DiscordID == user.Id);
+
+            if (user == null)
+                await ReplyAsync("Такого аккаунта нет в системе.");
+            else
+            {
+                //await ReplyAsync("Информация об игроке: ", false, await BuildUserStatsEmbedAsync(userSteamAccount.SteamID));
+                await PagedReplyAsync();
+            }
+        }
     }
 
     public class UserSteamAccount
