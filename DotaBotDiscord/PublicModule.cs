@@ -8,7 +8,6 @@ using Discord.Commands;
 using Discord.WebSocket;
 using OpenDotaDotNet;
 using OpenDotaDotNet.Dtos;
-using Discord.Addons.Interactive;
 using LiteDB;
 using System.Globalization;
 
@@ -118,7 +117,7 @@ namespace DotaBotDiscord
             embedBuilder.AddField("Ранг: ", playerInfo.LeaderboardRank.HasValue ? playerInfo.LeaderboardRank.ToString() : "нет", true);
             embedBuilder.AddField("Страна: ", playerInfo.Profile.Loccountrycode != null ? GetFlag(playerInfo.Profile.Loccountrycode) : "неизвестно");
 
-            //embedBuilder.WithTimestamp(DateTimeOffset.Now);
+            embedBuilder.WithTimestamp(DateTimeOffset.Now);
 
             var playerWinLoss = await _openDota.Player.GetPlayerWinLossByIdAsync(playerID_32);
 
@@ -138,8 +137,7 @@ namespace DotaBotDiscord
             var playerMostPlayedHeroLast20 = playerHeroes.FirstOrDefault();
             var hero = heroes[playerMostPlayedHeroLast20.HeroId];
             embedBuilder.AddField("Самый популярный герой за последние 20 матчей:", playerMostPlayedHeroLast20 != null ? $"{hero.LocalizedName} ({string.Join("; ", hero.Roles)}) с {playerMostPlayedHeroLast20.Win} победами" : "нет информации");
-
-            ;
+            embedBuilder.WithFooter(new EmbedFooterBuilder().WithText("Чтобы получить больше информации, воспользуйтесь командой !get_stats_extra"));
 
             return embedBuilder.Build();
         }
