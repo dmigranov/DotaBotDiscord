@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using OpenDotaDotNet;
 using OpenDotaDotNet.Dtos;
 using LiteDB;
@@ -55,6 +53,7 @@ namespace DotaBotDiscord
             List<CommandInfo> commands = _commandService.Commands.ToList();
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.Title = "Список команд";
+            embedBuilder.Color = Color.Green;
 
             foreach (CommandInfo command in commands)
             {
@@ -170,37 +169,13 @@ namespace DotaBotDiscord
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.Color = Color.Green;
 
-
             embedBuilder.AddField("Имя в Стиме:", playerInfo.Profile.Personaname, true);
-            embedBuilder.AddField("Последний раз в сети:", playerInfo.Profile.LastLogin.HasValue ? playerInfo.Profile.LastLogin?.ToString("dd.mm.yyyy, HH:mm", CultureInfo.InvariantCulture) : "неизвестно", true);
-            embedBuilder.AddField("Ссылка на профиль", playerInfo.Profile.Profileurl);
-            embedBuilder.AddField("Ссылка на OpenDota: ", $"https://www.opendota.com/players/{playerID_32}");
-            embedBuilder.AddField("MMR:", playerInfo.MmrEstimate.Estimate.HasValue ? playerInfo.MmrEstimate.Estimate.ToString() : "нет", true);
-            //MMR может быть не актуален: add MMR to your profile card. 
-            embedBuilder.AddField("Ранг: ", playerInfo.LeaderboardRank.HasValue ? playerInfo.LeaderboardRank.ToString() : "нет", true);
-            embedBuilder.AddField("Страна: ", playerInfo.Profile.Loccountrycode != null ? GetFlag(playerInfo.Profile.Loccountrycode) : "неизвестно");
-
+       
             embedBuilder.WithTimestamp(DateTimeOffset.Now);
 
-            var playerWinLoss = await _openDota.Player.GetPlayerWinLossByIdAsync(playerID_32);
-
-            int matches = playerWinLoss.Wins + playerWinLoss.Losses;
-            embedBuilder.AddField("Всего игр сыграно:", matches);
-
-            embedBuilder.AddField("Побед:", playerWinLoss.Wins, true);
-            embedBuilder.AddField("Поражений:", playerWinLoss.Losses, true);
-            embedBuilder.AddField("Винрейт:", matches != 0 ? ((double)playerWinLoss.Wins / matches).ToString("0.##") : "неизвестно", true);
             embedBuilder.WithThumbnailUrl(playerInfo.Profile.Avatarfull.ToString());
-            var playerQueryParameters = new PlayerEndpointParameters
-            {
-                Limit = 20
-            };
-            var playerHeroes = await _openDota.Player.GetPlayerHeroesAsync(playerID_32, playerQueryParameters);
 
-            var playerMostPlayedHeroLast20 = playerHeroes.FirstOrDefault();
-            var hero = heroes[playerMostPlayedHeroLast20.HeroId];
-            embedBuilder.AddField("Самый популярный герой за последние 20 матчей:", playerMostPlayedHeroLast20 != null ? $"{hero.LocalizedName} ({string.Join("; ", hero.Roles)}) с {playerMostPlayedHeroLast20.Win} победами" : "нет информации");
-            embedBuilder.WithFooter(new EmbedFooterBuilder().WithText("Чтобы получить больше информации, воспользуйтесь командой !get_stats_extra"));
+            embedBuilder.WithFooter(new EmbedFooterBuilder().WithText("Чтобы получить основную информацию, воспользуйтесь командой !get_stats"));
 
             return embedBuilder.Build();
         }
