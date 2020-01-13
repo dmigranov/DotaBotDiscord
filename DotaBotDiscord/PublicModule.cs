@@ -21,13 +21,6 @@ namespace DotaBotDiscord
         public static Dictionary<long, OpenDotaDotNet.Models.Heroes.Hero> heroes { get; set; }
 
 
-        [Command("ping")]
-        [Alias("pong", "hello")]
-        [Summary("Отправляет pong в ответ")]
-        public Task PingAsync()
-            => ReplyAsync("pong!");
-
-
         // Get info on a user, or the user who invoked the command if one is not specified
         [Command("userinfo")]
         [Summary("Отправляет информацию о аккаунте Discord в ответ")]
