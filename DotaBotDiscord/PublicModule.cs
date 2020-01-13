@@ -52,8 +52,8 @@ namespace DotaBotDiscord
             foreach (CommandInfo command in commands)
             {
                 string embedFieldText = command.Summary ?? "Без описания\n";
-
-                embedBuilder.AddField(command.Name, embedFieldText);
+                string names = $"{command.Name} ({string.Join(", ", command.Aliases)})";
+                embedBuilder.AddField(names, embedFieldText);
             }
 
             await ReplyAsync("Вот список всех команд с описанием; все команды вводятся начиная с !: ", false, embedBuilder.Build());
@@ -184,7 +184,7 @@ namespace DotaBotDiscord
 
             var playerTotals = await _openDota.Player.GetPlayerTotalsAsync(playerID_32);
             
-            for (int i = 0; i < playerTotals.Count - 1; i++)
+            for (int i = 0; i < playerTotals.Count; i++)
             {
                 OpenDotaDotNet.Models.Players.PlayerTotal playerTotal = playerTotals[i];
                 switch(playerTotal.Field)
@@ -246,10 +246,5 @@ namespace DotaBotDiscord
             return new string(char.ConvertFromUtf32(firstChar))
                         + new string(char.ConvertFromUtf32(secondChar));
         }
-
-
-
-
-
     }
 }
