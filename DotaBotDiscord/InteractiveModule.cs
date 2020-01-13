@@ -141,7 +141,7 @@ namespace DotaBotDiscord
             else
             {
                 //await ReplyAsync("Информация об игроке: ", false, await BuildUserStatsEmbedAsync(userSteamAccount.SteamID));
-                await PagedReplyAsync();
+                await PagedReplyAsync(new[] { await BuildUserStatsEmbedAsync(userSteamAccount.SteamID), "Page 2", "Page 3", "aaaaaa", "Page 5" });
             }
         }
     }
