@@ -78,7 +78,7 @@ namespace DotaBotDiscord
         }
 
 
-        [Summary("Вывод информации о профиле Стим по юзеру. Если юзер не указан, то об авторе сообщения")]
+        [Summary("Вывод информации о профиле Стим и игровой статистики по юзеру. Если юзер не указан, то об авторе сообщения")]
         [Command("get_stats", RunMode = RunMode.Async)]
         public async Task GetUserStats(IUser user = null)
         {
@@ -99,9 +99,31 @@ namespace DotaBotDiscord
                 await msg.AddReactionAsync(emoji);
             }
         }
-    
 
-    private async Task<Embed> BuildUserStatsEmbedAsync(long playerID_32)
+
+        [Summary("Вывод дополнительной информации о профиле Стим и игровой статистики по юзеру. Если юзер не указан, то об авторе сообщения")]
+        [Command("get_stats_extra", RunMode = RunMode.Async)]
+        public async Task GetUserStatsExtra(IUser user = null)
+        {
+            user = user ?? Context.User;
+
+            using var db = new LiteDatabase(@"BotData.db");
+            var users = db.GetCollection<UserSteamAccount>("users");
+
+            UserSteamAccount userSteamAccount = users.FindOne(x => x.DiscordID == user.Id);
+
+            if (user == null)
+                await ReplyAsync("Такого аккаунта нет в системе.");
+            else
+            {
+                var emoji = new Emoji("\uD83D\uDC4C");
+
+                var msg = await ReplyAsync("Информация об игроке: ", false, await BuildUserStatsEmbedAsync(userSteamAccount.SteamID));
+                await msg.AddReactionAsync(emoji);
+            }
+        }
+
+        private async Task<Embed> BuildUserStatsEmbedAsync(long playerID_32)
         {
             var playerInfo = await _openDota.Player.GetPlayerByIdAsync(playerID_32);
             EmbedBuilder embedBuilder = new EmbedBuilder();
