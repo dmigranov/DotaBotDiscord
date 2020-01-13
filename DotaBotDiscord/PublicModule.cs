@@ -105,9 +105,6 @@ namespace DotaBotDiscord
             embedBuilder.AddField("Имя в Стиме:", playerInfo.Profile.Personaname);
             embedBuilder.AddField("Ссылка на профиль", playerInfo.Profile.Profileurl);
             embedBuilder.AddField("Ссылка на OpenDota: ", $"https://www.opendota.com/players/{playerID_32}");
-
-
-
             embedBuilder.AddField("MMR:", playerInfo.MmrEstimate.Estimate.HasValue ? playerInfo.MmrEstimate.Estimate.ToString() : "нет", true);
             //MMR может быть не актуален: add MMR to your profile card. 
             embedBuilder.AddField("Ранг: ", playerInfo.LeaderboardRank.HasValue ? playerInfo.LeaderboardRank.ToString() : "нет", true);
@@ -119,10 +116,11 @@ namespace DotaBotDiscord
 
             int matches = playerWinLoss.Wins + playerWinLoss.Losses;
             embedBuilder.AddField("Всего игр сыграно:", matches);
-            embedBuilder.AddField("Побед:", playerWinLoss.Wins);
-            embedBuilder.AddField("Поражений:", playerWinLoss.Losses);
-            if(matches != 0)
-                embedBuilder.AddField("Винрейт:", ((double) playerWinLoss.Wins / matches).ToString("0.##"));
+
+            embedBuilder.AddField("Побед:", playerWinLoss.Wins, true);
+            embedBuilder.AddField("Поражений:", playerWinLoss.Losses, true);
+            embedBuilder.AddField("Винрейт:", matches != 0 ? ((double)playerWinLoss.Wins / matches).ToString("0.##") : "неизвестно", true);
+
             embedBuilder.WithThumbnailUrl(playerInfo.Profile.Avatarfull.ToString());
             var playerQueryParameters = new PlayerEndpointParameters
             {
