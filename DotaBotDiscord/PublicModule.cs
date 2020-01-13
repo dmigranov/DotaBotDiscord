@@ -99,14 +99,18 @@ namespace DotaBotDiscord
         {
             var playerInfo = await _openDota.Player.GetPlayerByIdAsync(playerID_32);
             EmbedBuilder embedBuilder = new EmbedBuilder();
+            embedBuilder.Color = Color.Green;
+
 
             embedBuilder.AddField("Имя в Стиме:", playerInfo.Profile.Personaname);
             embedBuilder.AddField("Ссылка на профиль", playerInfo.Profile.Profileurl);
             embedBuilder.AddField("Ссылка на OpenDota: ", $"https://www.opendota.com/players/{playerID_32}");
 
-            embedBuilder.AddField("MMR:", playerInfo.MmrEstimate.Estimate.HasValue ? playerInfo.MmrEstimate.Estimate.ToString() : "нет");
+
+
+            embedBuilder.AddField("MMR:", playerInfo.MmrEstimate.Estimate.HasValue ? playerInfo.MmrEstimate.Estimate.ToString() : "нет", true);
             //MMR может быть не актуален: add MMR to your profile card. 
-            embedBuilder.AddField("Ранг: ", playerInfo.LeaderboardRank.HasValue ? playerInfo.LeaderboardRank.ToString() : "нет");
+            embedBuilder.AddField("Ранг: ", playerInfo.LeaderboardRank.HasValue ? playerInfo.LeaderboardRank.ToString() : "нет", true);
             embedBuilder.AddField("Страна: ", playerInfo.Profile.Loccountrycode != null ? GetFlag(playerInfo.Profile.Loccountrycode) : "неизвестно");
 
 
