@@ -184,12 +184,18 @@ namespace DotaBotDiscord
                 switch(playerTotal.Field)
                 {
                     case "kills":
-                        embedBuilder.AddField("Убийств", playerTotal.Sum.ToString(), true);
+                        embedBuilder.AddField("Убийств:", playerTotal.Sum.ToString(), true);
                         break;
                     case "deaths":
-                        embedBuilder.AddField("Смертей", playerTotal.Sum.ToString(), true);
+                        embedBuilder.AddField("Смертей:", playerTotal.Sum.ToString(), true);
                         break;
-
+                    case "assists":
+                        embedBuilder.AddField("Помощи:", playerTotal.Sum.ToString(), true);
+                        break;
+                    case "duration":
+                        embedBuilder.AddField("Играет уже:", 
+                            new DateTime(TimeSpan.FromSeconds(playerTotal.Sum).Ticks).ToString("ddд hhч mmм ssс"), true);
+                        break;
                 }
             }
 
